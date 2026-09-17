@@ -57,6 +57,37 @@ class BranchManagement extends Component
         }
     }
 
+    public bool $showItemDeleteModal = false;
+    public string $itemToDeleteType = '';
+    public string $itemToDeleteName = '';
+
+    public function confirmDeleteBranchType(string $type): void
+    {
+        $this->itemToDeleteType = 'Branch Type';
+        $this->itemToDeleteName = $type;
+        $this->showItemDeleteModal = true;
+    }
+
+    public function executeDeleteItem(): void
+    {
+        $this->showItemDeleteModal = false;
+        if ($this->itemToDeleteType === 'Branch Type') {
+            $this->deleteBranchType($this->itemToDeleteName);
+        }
+        $this->reset(['itemToDeleteType', 'itemToDeleteName']);
+    }
+
+    public function deleteBranchType(string $type): void
+    {
+        $count = Branch::where('branch_type', $type)->count();
+        if ($count > 0) {
+            session()->flash('error', "Cannot delete branch type '{$type}' because {$count} branch(es) are using it.");
+            return;
+        }
+        $this->branch_type = 'RETAIL';
+        session()->flash('message', "Branch type '{$type}' removed.");
+    }
+
     public function edit(int $branchId): void
     {
         if (! auth()->user()?->hasPermission('Branch & Shift Operations', 'EDIT')) {

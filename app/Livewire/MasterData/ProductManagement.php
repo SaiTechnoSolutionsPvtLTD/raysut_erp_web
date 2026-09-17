@@ -5,6 +5,7 @@ namespace App\Livewire\MasterData;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\ProductPricingTier;
 use App\Models\TaxVatRate;
 use App\Models\Uom;
 use Livewire\Component;
@@ -31,11 +32,12 @@ class ProductManagement extends Component
     public $tax_rate_id;
     public $hs_code;
     public $pack_size;
+    public $unit_price = '';
     public $reorder_level = 0;
     public $is_duty_free_eligible = false;
     public $is_active = true;
 
-    // Dynamic Add New properties
+    // Dynamic Add New & Delete Manager properties
     public $custom_category_name = '';
     public $isCustomCategory = false;
 
@@ -49,6 +51,39 @@ class ProductManagement extends Component
     public $custom_tax_name = '';
     public $custom_tax_rate = '';
     public $isCustomTax = false;
+
+    // Item Delete Modal properties
+    public bool $showItemDeleteModal = false;
+    public string $itemToDeleteType = '';
+    public int $itemToDeleteId = 0;
+    public string $itemToDeleteName = '';
+
+    public function confirmDeleteItem(string $type, int $id, string $name): void
+    {
+        $this->itemToDeleteType = $type;
+        $this->itemToDeleteId = $id;
+        $this->itemToDeleteName = $name;
+        $this->showItemDeleteModal = true;
+    }
+
+    public function executeDeleteItem(): void
+    {
+        $this->showItemDeleteModal = false;
+
+        if ($this->itemToDeleteType === 'Category') {
+            $this->deleteCategory($this->itemToDeleteId);
+        } elseif ($this->itemToDeleteType === 'Brand') {
+            $this->deleteBrand($this->itemToDeleteId);
+        } elseif ($this->itemToDeleteType === 'Base UOM' || $this->itemToDeleteType === 'UOM') {
+            $this->deleteUom($this->itemToDeleteId);
+        } elseif ($this->itemToDeleteType === 'Tax Rate') {
+            $this->deleteTaxRate($this->itemToDeleteId);
+        } elseif ($this->itemToDeleteType === 'Product') {
+            $this->deleteProduct($this->itemToDeleteId);
+        }
+
+        $this->reset(['itemToDeleteType', 'itemToDeleteId', 'itemToDeleteName']);
+    }
 
     protected function generateSkuCode(): string
     {
@@ -110,6 +145,7 @@ class ProductManagement extends Component
             'tax_rate_id' => 'nullable',
             'hs_code' => 'nullable|string|max:20',
             'pack_size' => 'nullable|string|max:50',
+            'unit_price' => 'nullable|numeric|min:0',
             'reorder_level' => 'required|numeric|min:0',
             'is_duty_free_eligible' => 'boolean',
             'is_active' => 'boolean',
@@ -124,7 +160,7 @@ class ProductManagement extends Component
 
         $this->reset([
             'product_id', 'barcode', 'product_name', 'cat_id', 'brd_id', 
-            'base_uom_id', 'tax_rate_id', 'hs_code', 'pack_size', 'reorder_level', 
+            'base_uom_id', 'tax_rate_id', 'hs_code', 'pack_size', 'unit_price', 'reorder_level', 
             'is_duty_free_eligible', 'custom_category_name', 'isCustomCategory', 
             'custom_brand_name', 'isCustomBrand', 'custom_uom_code', 'custom_uom_name', 
             'isCustomUom', 'custom_tax_name', 'custom_tax_rate', 'isCustomTax'
@@ -153,6 +189,8 @@ class ProductManagement extends Component
         $this->tax_rate_id = $product->tax_rate_id;
         $this->hs_code = $product->hs_code;
         $this->pack_size = $product->pack_size;
+        $retailTier = $product->pricingTiers->firstWhere('price_tier', 'RETAIL');
+        $this->unit_price = $retailTier ? $retailTier->unit_price : '';
         $this->reorder_level = $product->reorder_level;
         $this->is_duty_free_eligible = $product->is_duty_free_eligible;
         $this->is_active = $product->is_active;
@@ -235,7 +273,7 @@ class ProductManagement extends Component
 
         $this->validate();
 
-        Product::updateOrCreate(
+        $prodObj = Product::updateOrCreate(
             ['product_id' => $this->product_id],
             [
                 'sku_code' => $this->sku_code,
@@ -253,14 +291,133 @@ class ProductManagement extends Component
             ]
         );
 
+        if ($this->unit_price !== null && $this->unit_price !== '') {
+            ProductPricingTier::updateOrCreate(
+                ['product_id' => $prodObj->product_id, 'price_tier' => 'RETAIL'],
+                [
+                    'min_quantity' => 1,
+                    'unit_price' => (float)$this->unit_price,
+                    'effective_from' => now()->toDateString(),
+                ]
+            );
+        }
+
         session()->flash('message', $this->isEdit ? 'Product updated successfully.' : 'Product created successfully.');
         $this->dispatch('notify', type: 'success', title: 'Product Saved', message: 'Product ' . ($this->isEdit ? 'updated' : 'created') . ' successfully.');
         $this->showModal = false;
     }
 
+    public function clearFilters(): void
+    {
+        $this->reset(['search', 'category_id', 'brand_id']);
+        $this->resetPage();
+    }
+
+    public function deleteCategory($id): void
+    {
+        $cat = ProductCategory::find($id);
+        if ($cat) {
+            if (ProductCategory::where('parent_category_id', $id)->exists()) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Category', message: "Cannot delete category '{$cat->category_name}' because it has sub-categories linked to it.");
+                return;
+            }
+            if (Product::where('category_id', $id)->exists()) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Category', message: "Cannot delete category '{$cat->category_name}' because it is linked to existing products.");
+                return;
+            }
+            try {
+                $cat->delete();
+                if ($this->cat_id == $id) {
+                    $this->cat_id = '';
+                }
+                $this->dispatch('notify', type: 'warning', title: 'Category Removed', message: "Category '{$cat->category_name}' deleted successfully.");
+            } catch (\Throwable $e) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Category', message: "Cannot delete category '{$cat->category_name}' because it is referenced by existing products or transaction records.");
+            }
+        }
+    }
+
+    public function deleteBrand($id): void
+    {
+        $brand = Brand::find($id);
+        if ($brand) {
+            if (Product::where('brand_id', $id)->exists()) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Brand', message: "Cannot delete brand '{$brand->brand_name}' because it is linked to existing products.");
+                return;
+            }
+            try {
+                $brand->delete();
+                if ($this->brd_id == $id) {
+                    $this->brd_id = '';
+                }
+                $this->dispatch('notify', type: 'warning', title: 'Brand Removed', message: "Brand '{$brand->brand_name}' deleted successfully.");
+            } catch (\Throwable $e) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Brand', message: "Cannot delete brand '{$brand->brand_name}' because it is referenced by existing products or transaction records.");
+            }
+        }
+    }
+
+    public function deleteUom($id): void
+    {
+        $uom = Uom::find($id);
+        if ($uom) {
+            if (Product::where('base_uom_id', $id)->exists()) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete UOM', message: "Cannot delete UOM '{$uom->uom_code}' because it is linked to existing products.");
+                return;
+            }
+            try {
+                $uom->delete();
+                if ($this->base_uom_id == $id) {
+                    $this->base_uom_id = '';
+                }
+                $this->dispatch('notify', type: 'warning', title: 'UOM Removed', message: "UOM '{$uom->uom_code}' deleted successfully.");
+            } catch (\Throwable $e) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete UOM', message: "Cannot delete UOM '{$uom->uom_code}' because it is referenced by existing products or transaction records.");
+            }
+        }
+    }
+
+    public function deleteTaxRate($id): void
+    {
+        $tax = TaxVatRate::find($id);
+        if ($tax) {
+            if (Product::where('tax_rate_id', $id)->exists()) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Tax Rate', message: "Cannot delete tax rate '{$tax->tax_name}' because it is linked to existing products.");
+                return;
+            }
+            try {
+                $tax->delete();
+                if ($this->tax_rate_id == $id) {
+                    $this->tax_rate_id = '';
+                }
+                $this->dispatch('notify', type: 'warning', title: 'Tax Rate Removed', message: "Tax rate '{$tax->tax_name}' deleted successfully.");
+            } catch (\Throwable $e) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Tax Rate', message: "Cannot delete tax rate '{$tax->tax_name}' because it is referenced by existing products or transaction records.");
+            }
+        }
+    }
+
+    public function deleteProduct($id): void
+    {
+        if (! auth()->user()?->hasPermission('Master Data', 'DELETE')) {
+            abort(403, 'Unauthorized action: You do not have permission to DELETE products.');
+        }
+
+        $product = Product::find($id);
+        if ($product) {
+            try {
+                $name = $product->product_name;
+                $product->delete();
+                $this->dispatch('notify', type: 'warning', title: 'Product Deleted', message: "Product '{$name}' deleted successfully.");
+            } catch (\Throwable $e) {
+                $this->dispatch('notify', type: 'error', title: 'Cannot Delete Product', message: "Cannot delete product '{$product->product_name}' because it is referenced in inventory, sales, or purchase transactions.");
+            }
+        }
+    }
+
     public function render()
     {
-        $query = Product::with(['category', 'brand', 'uom', 'taxRate']);
+        $query = Product::with(['category', 'brand', 'uom', 'taxRate', 'pricingTiers']);
 
         if ($this->search) {
             $query->where(function ($q) {

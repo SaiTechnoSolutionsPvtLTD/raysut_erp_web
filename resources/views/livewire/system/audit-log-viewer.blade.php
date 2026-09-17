@@ -44,7 +44,6 @@
                             <th class="px-6 py-4">Performed By</th>
                             <th class="px-6 py-4">Action</th>
                             <th class="px-6 py-4">Date & Time</th>
-                            <th class="px-6 py-4">Payload Details</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-xs">
@@ -109,16 +108,10 @@
                                     <div class="font-bold text-slate-800">{{ $formattedDate }}</div>
                                     <div class="text-[10px] text-slate-400 font-sans">{{ $log->created_at?->diffForHumans() }}</div>
                                 </td>
-
-                                <td class="px-6 py-4 max-w-xs truncate font-mono text-[11px] text-slate-500" title="{{ is_array($log->details_json) ? json_encode($log->details_json, JSON_PRETTY_PRINT) : $log->details_json }}">
-                                    <code class="bg-slate-50 px-2 py-1 rounded border border-slate-200/60 block truncate">
-                                        {{ is_array($log->details_json) ? json_encode($log->details_json) : $log->details_json }}
-                                    </code>
-                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-slate-400 font-sans">
+                                <td colspan="5" class="px-6 py-12 text-center text-slate-400 font-sans">
                                     <div class="max-w-xs mx-auto space-y-2">
                                         <svg class="w-8 h-8 text-slate-300 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                         <p class="text-xs text-slate-500">No audit events match your search criteria.</p>

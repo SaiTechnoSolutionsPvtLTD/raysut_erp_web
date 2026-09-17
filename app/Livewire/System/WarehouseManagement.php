@@ -64,6 +64,37 @@ class WarehouseManagement extends Component
         }
     }
 
+    public bool $showItemDeleteModal = false;
+    public string $itemToDeleteType = '';
+    public string $itemToDeleteName = '';
+
+    public function confirmDeleteWarehouseType(string $type): void
+    {
+        $this->itemToDeleteType = 'Warehouse Type';
+        $this->itemToDeleteName = $type;
+        $this->showItemDeleteModal = true;
+    }
+
+    public function executeDeleteItem(): void
+    {
+        $this->showItemDeleteModal = false;
+        if ($this->itemToDeleteType === 'Warehouse Type') {
+            $this->deleteWarehouseType($this->itemToDeleteName);
+        }
+        $this->reset(['itemToDeleteType', 'itemToDeleteName']);
+    }
+
+    public function deleteWarehouseType(string $type): void
+    {
+        $count = Warehouse::where('warehouse_type', $type)->count();
+        if ($count > 0) {
+            session()->flash('error', "Cannot delete warehouse type '{$type}' because {$count} warehouse(s) are using it.");
+            return;
+        }
+        $this->warehouse_type = 'DUTY_FREE_BONDED';
+        session()->flash('message', "Warehouse type '{$type}' removed.");
+    }
+
     public function edit(int $warehouseId): void
     {
         if (! auth()->user()?->hasPermission('Warehouse & Inventory', 'EDIT')) {

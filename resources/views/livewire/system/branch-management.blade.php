@@ -87,9 +87,9 @@
              x-transition:leave-end="opacity-0 scale-95"
              class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
              style="display: none;">
-            <div @click.away="open = false; $wire.set('isModalOpen', false)" 
-                 class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all">
-                <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+            <div @click.away="if (!$wire.showItemDeleteModal && !deleteOpen) { open = false; $wire.set('isModalOpen', false); }" 
+                 class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative">
+                <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between rounded-t-2xl">
                     <h3 class="font-bold text-slate-900 text-base">{{ $editingBranchId ? 'Edit Branch' : 'Add New Branch' }}</h3>
                     <button type="button" @click="open = false; $wire.set('isModalOpen', false)" class="text-slate-400 hover:text-slate-600">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -115,12 +115,43 @@
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Branch Type *</label>
-                        <select wire:model.live="branch_type" class="w-full rounded-xl border-slate-200 focus:border-rmsc-red focus:ring-rmsc-red text-sm">
-                            @foreach($branchTypes as $type)
-                                <option value="{{ $type }}">{{ $type }}</option>
-                            @endforeach
-                            <option value="ADD_NEW">+ Add Custom Branch Type...</option>
-                        </select>
+                        <div x-data="{ open: false }" class="relative">
+                            <button type="button" @click="open = !open" class="w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-left font-medium text-slate-800 focus:outline-none focus:border-rmsc-red focus:ring-2 focus:ring-rmsc-red/10 transition shadow-2xs">
+                                <span class="truncate">
+                                    @if($branch_type === 'ADD_NEW')
+                                        <span class="text-amber-700 font-semibold">+ Add Custom Branch Type...</span>
+                                    @elseif($branch_type)
+                                        {{ $branch_type }}
+                                    @else
+                                        <span class="text-slate-400">Select Branch Type</span>
+                                    @endif
+                                </span>
+                                <svg class="w-4 h-4 text-slate-400 shrink-0 ml-1 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                            </button>
+
+                            <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 mt-1 w-full rounded-xl bg-white shadow-xl border border-slate-200 py-1 max-h-48 overflow-y-auto overscroll-contain shadow-2xl [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" style="display: none;">
+                                @foreach($branchTypes as $type)
+                                    <div class="flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition cursor-pointer group {{ $branch_type == $type ? 'bg-red-50/50 font-semibold text-rmsc-red' : 'text-slate-700 text-xs' }}">
+                                        <span @click="$wire.set('branch_type', '{{ $type }}'); open = false" class="flex-1 truncate pr-2 py-0.5 text-xs">
+                                            {{ $type }}
+                                        </span>
+                                        @if(!in_array($type, ['HEADQUARTERS', 'RETAIL_STORE', 'DUTY_FREE', 'WHOLESALE_DEPOT', 'RETAIL']))
+                                            <button type="button" 
+                                                    wire:click.stop="confirmDeleteBranchType('{{ addslashes($type) }}')" 
+                                                    class="p-1 text-slate-400 hover:text-red-600 hover:bg-red-100/70 rounded-lg transition" 
+                                                    title="Delete Custom Branch Type">
+                                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            </button>
+                                        @endif
+                                    </div>
+                                @endforeach
+
+                                <div @click="$wire.set('branch_type', 'ADD_NEW'); open = false" class="px-3 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-50 cursor-pointer border-t border-slate-100 flex items-center">
+                                    <svg class="w-3.5 h-3.5 mr-1.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                    <span>+ Add Custom Branch Type...</span>
+                                </div>
+                            </div>
+                        </div>
                         @error('branch_type') <span class="text-xs text-rmsc-red mt-1 block">{{ $message }}</span> @enderror
 
                         @if($isCustomType || $branch_type === 'ADD_NEW')
@@ -146,7 +177,7 @@
 
                     <div class="pt-4 border-t border-slate-100 flex justify-end space-x-3">
                         <button type="button" @click="open = false; $wire.set('isModalOpen', false)" class="px-4 py-2 border border-slate-200 text-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-50 transition">Cancel</button>
-                        <button type="submit" class="px-5 py-2 bg-rmsc-red hover:bg-rmsc-red-dark text-white font-semibold text-xs rounded-xl shadow-md transition">Save Branch</button>
+                        <button type="submit" class="px-5 py-2 bg-rmsc-red hover:bg-rmsc-red-dark text-white font-semibold text-xs rounded-xl shadow-md transition">{{ $editingBranchId ? 'Update Branch' : 'Save Branch' }}</button>
                     </div>
                 </form>
             </div>
@@ -155,7 +186,6 @@
     @endif
 
     <!-- Delete Confirmation Modal -->
-    @if(auth()->user()?->hasPermission('Branch & Shift Operations', 'DELETE'))
     <template x-teleport="body">
         <div x-show="deleteOpen" 
              x-transition:enter="transition ease-out duration-200"
@@ -167,32 +197,51 @@
              class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
              style="display: none;">
             <div @click.away="deleteOpen = false; $wire.set('isDeleteModalOpen', false)" 
-                 class="bg-white rounded-2xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all p-6 text-center mx-auto"
-                 style="max-width: 440px;">
-                
-                <div class="w-14 h-14 bg-rose-50 border border-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-rose-600 shadow-inner">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
-                </div>
+                 class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all w-full mx-auto"
+                 style="max-width: 400px;">
+                <div class="p-6 text-center">
+                    <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mb-1">Delete Branch?</h3>
+                    <p class="text-xs text-slate-500 mb-6">Are you sure you want to delete <span class="font-semibold text-slate-800">"{{ $deletingBranchName }}"</span>? This action cannot be undone and will fail if linked to users or transactions.</p>
 
-                <h3 class="font-bold text-slate-900 text-lg">Delete Branch Confirmation</h3>
-                <p class="text-xs text-slate-500 mt-2 leading-relaxed">
-                    Are you sure you want to delete <span class="font-bold text-slate-800" x-text="$wire.deletingBranchName || 'this branch'"></span>? This action cannot be reversed and may affect linked operations.
-                </p>
-
-                <div class="mt-6 flex items-center justify-center space-x-3">
-                    <button type="button" @click="deleteOpen = false; $wire.set('isDeleteModalOpen', false)" 
-                            class="px-4 py-2.5 border border-slate-200 text-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-50 transition w-full">
-                        Cancel
-                    </button>
-                    <button type="button" wire:click="deleteBranch" 
-                            class="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-xl shadow-md shadow-rose-600/20 transition w-full">
-                        Yes, Delete Branch
-                    </button>
+                    <div class="flex items-center justify-center space-x-3">
+                        <button type="button" @click="deleteOpen = false; $wire.set('isDeleteModalOpen', false)" class="px-4 py-2 border border-slate-200 text-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-50 transition">Cancel</button>
+                        <button type="button" wire:click="deleteBranch" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs rounded-xl shadow-md transition">Delete Branch</button>
+                    </div>
                 </div>
             </div>
         </div>
     </template>
-    @endif
+
+    <!-- Custom Item Delete Confirmation Modal (Branch Type) -->
+    <template x-teleport="body">
+        <div x-show="$wire.showItemDeleteModal" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
+             style="display: none;">
+            <div @click.away="$wire.set('showItemDeleteModal', false)" 
+                 class="bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all w-full mx-auto"
+                 style="max-width: 400px;">
+                <div class="p-6 text-center">
+                    <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </div>
+                    <h3 class="text-base font-bold text-slate-900 mb-1">Delete {{ $itemToDeleteType }}?</h3>
+                    <p class="text-xs text-slate-500 mb-6">Are you sure you want to delete <span class="font-semibold text-slate-800">"{{ $itemToDeleteName }}"</span>? This action cannot be undone.</p>
+
+                    <div class="flex items-center justify-center space-x-3">
+                        <button type="button" @click="$wire.set('showItemDeleteModal', false)" class="px-4 py-2 border border-slate-200 text-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-50 transition">Cancel</button>
+                        <button type="button" wire:click="executeDeleteItem" class="px-5 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold text-xs rounded-xl shadow-md transition">Delete {{ $itemToDeleteType }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
 </div>
