@@ -23,9 +23,12 @@ class PurchaseAndInventorySeeder extends Seeder
     {
         $supplier = Supplier::where('supplier_code', 'SUP-DIAGEO-UK')->first();
         $warehouseBonded = Warehouse::where('warehouse_code', 'WH-MCT-BOND')->first();
-        $warehouseSalalah = Warehouse::where('warehouse_code', 'WH-SAL-FREE')->first();
+        $warehouseSllBonded = Warehouse::where('warehouse_code', 'WH-SLL-DEPOT')->first();
+        $warehouseSohBonded = Warehouse::where('warehouse_code', 'WH-SOH-BOND')->first();
+        $warehouseMctMain = Warehouse::where('warehouse_code', 'WH-MCT-MAIN')->first();
         $userAdmin = User::where('email', 'admin@rmsc.om')->first();
         $productJW = Product::where('sku_code', 'SKU-JW-BLK-750')->first();
+        $productHein = Product::where('sku_code', 'SKU-HEIN-CAN-330')->first();
 
         if (!$supplier || !$warehouseBonded || !$productJW) {
             return;
@@ -64,7 +67,7 @@ class PurchaseAndInventorySeeder extends Seeder
             'actual_arrival_date' => '2026-02-12',
         ]);
 
-        // 3. Goods Receipt Note
+        // 3. Goods Receipt Note (In Bonded Duty-Free Warehouse)
         $grn = GoodsReceiptNote::create([
             'grn_number' => 'GRN-2026-0001',
             'po_id' => $po->po_id,
@@ -75,7 +78,7 @@ class PurchaseAndInventorySeeder extends Seeder
             'has_discrepancy' => false,
         ]);
 
-        // 4. Stock Batch
+        // 4. Stock Batch (Duty-Free Bonded)
         $batch = StockBatch::create([
             'batch_number' => 'BATCH-JW2026A',
             'product_id' => $productJW->product_id,
@@ -124,7 +127,7 @@ class PurchaseAndInventorySeeder extends Seeder
             'amount' => 150.000,
         ]);
 
-        // 7. Stock Intake via StockLedgerService
+        // 7. Stock Intake via StockLedgerService into Duty-Free Warehouses
         $stockService = app(StockLedgerService::class);
         $stockService->recordIntake(
             warehouseId: $warehouseBonded->warehouse_id,
@@ -133,21 +136,57 @@ class PurchaseAndInventorySeeder extends Seeder
             quantity: 500.00
         );
 
-        if ($warehouseSalalah) {
+        if ($warehouseSllBonded) {
             $batchSalalah = StockBatch::create([
-                'batch_number' => 'BATCH-JW2026B-DUTYPAID',
+                'batch_number' => 'BATCH-SLL-DF01',
                 'product_id' => $productJW->product_id,
                 'manufacture_date' => '2025-12-01',
                 'expiry_date' => '2030-12-01',
+                'source_grn_id' => $grn->grn_id,
+                'duty_status' => 'DUTY_FREE_BONDED',
+            ]);
+
+            $stockService->recordIntake(
+                warehouseId: $warehouseSllBonded->warehouse_id,
+                productId: $productJW->product_id,
+                batchId: $batchSalalah->batch_id,
+                quantity: 200.00
+            );
+        }
+
+        if ($warehouseSohBonded && $productHein) {
+            $batchSohar = StockBatch::create([
+                'batch_number' => 'BATCH-SOH-DF02',
+                'product_id' => $productHein->product_id,
+                'manufacture_date' => '2026-01-01',
+                'expiry_date' => '2028-01-01',
+                'source_grn_id' => $grn->grn_id,
+                'duty_status' => 'DUTY_FREE_BONDED',
+            ]);
+
+            $stockService->recordIntake(
+                warehouseId: $warehouseSohBonded->warehouse_id,
+                productId: $productHein->product_id,
+                batchId: $batchSohar->batch_id,
+                quantity: 350.00
+            );
+        }
+
+        if ($warehouseMctMain) {
+            $batchMain = StockBatch::create([
+                'batch_number' => 'BATCH-MCT-DP01',
+                'product_id' => $productJW->product_id,
+                'manufacture_date' => '2025-10-01',
+                'expiry_date' => '2030-10-01',
                 'source_grn_id' => $grn->grn_id,
                 'duty_status' => 'DUTY_PAID',
             ]);
 
             $stockService->recordIntake(
-                warehouseId: $warehouseSalalah->warehouse_id,
+                warehouseId: $warehouseMctMain->warehouse_id,
                 productId: $productJW->product_id,
-                batchId: $batchSalalah->batch_id,
-                quantity: 120.00
+                batchId: $batchMain->batch_id,
+                quantity: 150.00
             );
         }
     }

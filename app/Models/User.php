@@ -91,4 +91,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Branch::class, 'user_branch_access', 'user_id', 'branch_id');
     }
+
+    public function openShift()
+    {
+        return $this->hasOne(CashierShift::class, 'user_id', 'user_id')->where('status', 'OPEN');
+    }
 }

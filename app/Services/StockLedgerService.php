@@ -153,4 +153,23 @@ class StockLedgerService
             return $stock;
         });
     }
+
+    /**
+     * Get branch-wise counter stock location inventory.
+     */
+    public function getBranchCounterStock(int $branchId, ?int $productId = null): \Illuminate\Support\Collection
+    {
+        $warehouseIds = \App\Models\Warehouse::where('branch_id', $branchId)
+            ->where('is_active', true)
+            ->pluck('warehouse_id');
+
+        $query = WarehouseStock::with(['product', 'batch', 'warehouse'])
+            ->whereIn('warehouse_id', $warehouseIds);
+
+        if ($productId) {
+            $query->where('product_id', $productId);
+        }
+
+        return $query->get();
+    }
 }

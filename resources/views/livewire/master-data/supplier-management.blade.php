@@ -147,8 +147,9 @@
              x-transition:leave-end="opacity-0 scale-95"
              class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
              style="display: none;">
+            {{-- FIX: removed overflow-hidden from the modal card so the country dropdown is not clipped --}}
             <div @click.away="if (!$wire.showItemDeleteModal) { open = false; $wire.set('showModal', false); }" 
-                 class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative">
+                 class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 transform transition-all relative">
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between rounded-t-2xl">
                     <h3 class="font-bold text-slate-900 text-base">{{ $isEdit ? 'Edit Supplier' : 'Add New Supplier' }}</h3>
                     <button type="button" @click="open = false; $wire.set('showModal', false)" class="text-slate-400 hover:text-slate-600 transition">
@@ -189,8 +190,9 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">Country of Origin *</label>
-                            <div x-data="{ open: false }" class="relative">
-                                <button type="button" @click="open = !open" class="w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-left font-medium text-slate-800 focus:outline-none focus:border-rmsc-red focus:ring-2 focus:ring-rmsc-red/10 transition shadow-2xs">
+                            {{-- FIX: renamed inner state to countryOpen (no longer shadows the modal's `open`) --}}
+                            <div x-data="{ countryOpen: false }" class="relative">
+                                <button type="button" @click="countryOpen = !countryOpen" class="w-full flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-left font-medium text-slate-800 focus:outline-none focus:border-rmsc-red focus:ring-2 focus:ring-rmsc-red/10 transition shadow-2xs">
                                     <span class="truncate">
                                         @if($country === 'ADD_NEW')
                                             <span class="text-amber-700 font-semibold">+ Add Custom Country...</span>
@@ -200,24 +202,47 @@
                                             <span class="text-slate-400">Select Country</span>
                                         @endif
                                     </span>
-                                    <svg class="w-4 h-4 text-slate-400 shrink-0 ml-1 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                    <svg class="w-4 h-4 text-slate-400 shrink-0 ml-1 transition-transform" :class="{ 'rotate-180': countryOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                                 </button>
 
-                                <div x-show="open" @click.outside="open = false" x-transition class="absolute z-50 mt-1 w-full rounded-xl bg-white shadow-xl border border-slate-200 py-1 max-h-48 overflow-y-auto overscroll-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" style="display: none;">
-                                    <div @click="$wire.set('country', ''); open = false" class="px-3 py-2 text-xs font-medium text-slate-400 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
-                                        Select Country
+                                <div x-show="countryOpen" 
+                                     @click.outside="countryOpen = false" 
+                                     x-transition:enter="transition ease-out duration-100"
+                                     x-transition:enter-start="opacity-0 scale-95"
+                                     x-transition:enter-end="opacity-100 scale-100"
+                                     x-transition:leave="transition ease-in duration-75"
+                                     x-transition:leave-start="opacity-100 scale-100"
+                                     x-transition:leave-end="opacity-0 scale-95"
+                                     class="absolute left-0 right-0 z-[60] mt-1 rounded-xl bg-white shadow-xl border border-slate-200" 
+                                     style="display: none;">
+                                    
+                                    <!-- Scrollable Country List -->
+                                    <div @wheel.stop
+                                         class="divide-y divide-slate-50 overscroll-contain rounded-t-xl"
+                                         style="max-height: 13rem; overflow-y: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #cbd5e1 #f8fafc;">
+                                        <div @click="$wire.set('country', ''); countryOpen = false" 
+                                             class="px-3 py-2 text-xs font-medium text-slate-400 hover:bg-slate-50 cursor-pointer">
+                                            Select Country
+                                        </div>
+
+                                        @foreach($allCountries as $c)
+                                            <div @click="$wire.set('country', '{{ addslashes($c) }}'); countryOpen = false" 
+                                                 class="flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition cursor-pointer text-slate-700 text-xs {{ $country == $c ? 'bg-red-50/50 font-semibold text-rmsc-red' : '' }}">
+                                                <span class="flex-1 truncate py-0.5 text-xs">
+                                                    {{ $c }}
+                                                </span>
+                                                @if(isset(App\Livewire\MasterData\SupplierManagement::$countryCurrencyMap[strtolower($c)]))
+                                                    <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 font-semibold">
+                                                        {{ App\Livewire\MasterData\SupplierManagement::$countryCurrencyMap[strtolower($c)] }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        @endforeach
                                     </div>
 
-                                    @foreach($allCountries as $c)
-                                        <div @click="$wire.set('country', '{{ addslashes($c) }}'); open = false" class="flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition cursor-pointer text-slate-700 text-xs {{ $country == $c ? 'bg-red-50/50 font-semibold text-rmsc-red' : '' }}">
-                                            <span class="flex-1 truncate py-0.5 text-xs">
-                                                {{ $c }}
-                                            </span>
-                                        </div>
-                                    @endforeach
-
-                                    <div @click="$wire.set('country', 'ADD_NEW'); open = false" class="px-3 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-50 cursor-pointer border-t border-slate-100 flex items-center">
-                                        <svg class="w-3.5 h-3.5 mr-1.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                    <!-- Add Custom Country Option -->
+                                    <div @click="$wire.set('country', 'ADD_NEW'); countryOpen = false" 
+                                         class="px-3 py-2 text-xs font-semibold text-amber-700 hover:bg-amber-50 cursor-pointer border-t border-slate-100 flex items-center bg-slate-50/70 rounded-b-xl">
                                         <span>+ Add Custom Country...</span>
                                     </div>
                                 </div>
@@ -227,7 +252,7 @@
                             @if($isCustomCountry || $country === 'ADD_NEW')
                                 <div class="mt-2.5 p-3 bg-amber-50/70 border border-amber-200/90 rounded-xl space-y-1.5">
                                     <label class="block text-[11px] font-bold text-amber-900 uppercase tracking-wider">New Country Name *</label>
-                                    <input type="text" wire:model.blur="custom_country_name" class="w-full rounded-lg border-amber-200 bg-white focus:border-rmsc-red focus:ring-rmsc-red text-sm font-semibold text-slate-800" placeholder="e.g. Spain, Germany, New Zealand">
+                                    <input type="text" wire:model.live.debounce.300ms="custom_country_name" class="w-full rounded-lg border-amber-200 bg-white focus:border-rmsc-red focus:ring-rmsc-red text-sm font-semibold text-slate-800" placeholder="e.g. Spain, Germany, New Zealand">
                                     @error('custom_country_name') <span class="text-xs text-rmsc-red block font-medium">{{ $message }}</span> @enderror
                                 </div>
                             @endif

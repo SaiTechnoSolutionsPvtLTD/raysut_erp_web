@@ -35,11 +35,118 @@ class SupplierManagement extends Component
     public int $itemToDeleteId = 0;
     public string $itemToDeleteName = '';
 
+    public static array $countryCurrencyMap = [
+        'oman' => 'OMR',
+        'united kingdom' => 'GBP',
+        'uk' => 'GBP',
+        'great britain' => 'GBP',
+        'england' => 'GBP',
+        'scotland' => 'GBP',
+        'wales' => 'GBP',
+        'northern ireland' => 'GBP',
+        'france' => 'EUR',
+        'netherlands' => 'EUR',
+        'holland' => 'EUR',
+        'germany' => 'EUR',
+        'ireland' => 'EUR',
+        'italy' => 'EUR',
+        'spain' => 'EUR',
+        'portugal' => 'EUR',
+        'belgium' => 'EUR',
+        'austria' => 'EUR',
+        'greece' => 'EUR',
+        'finland' => 'EUR',
+        'cyprus' => 'EUR',
+        'estonia' => 'EUR',
+        'latvia' => 'EUR',
+        'lithuania' => 'EUR',
+        'luxembourg' => 'EUR',
+        'malta' => 'EUR',
+        'slovakia' => 'EUR',
+        'slovenia' => 'EUR',
+        'croatia' => 'EUR',
+        'united states' => 'USD',
+        'united states of america' => 'USD',
+        'usa' => 'USD',
+        'us' => 'USD',
+        'united arab emirates' => 'AED',
+        'uae' => 'AED',
+        'dubai' => 'AED',
+        'australia' => 'AUD',
+        'japan' => 'JPY',
+        'mexico' => 'MXN',
+        'south africa' => 'ZAR',
+        'india' => 'INR',
+        'canada' => 'CAD',
+        'switzerland' => 'CHF',
+        'china' => 'CNY',
+        'singapore' => 'SGD',
+        'new zealand' => 'NZD',
+        'saudi arabia' => 'SAR',
+        'ksa' => 'SAR',
+        'qatar' => 'QAR',
+        'kuwait' => 'KWD',
+        'bahrain' => 'BHD',
+        'sweden' => 'SEK',
+        'norway' => 'NOK',
+        'denmark' => 'DKK',
+        'poland' => 'PLN',
+        'turkey' => 'TRY',
+        'türkiye' => 'TRY',
+        'thailand' => 'THB',
+        'south korea' => 'KRW',
+        'korea' => 'KRW',
+        'brazil' => 'BRL',
+        'chile' => 'CLP',
+        'argentina' => 'ARS',
+        'georgia' => 'GEL',
+        'russia' => 'RUB',
+        'egypt' => 'EGP',
+        'jordan' => 'JOD',
+        'lebanon' => 'LBP',
+        'malaysia' => 'MYR',
+        'indonesia' => 'IDR',
+        'philippines' => 'PHP',
+        'vietnam' => 'VND',
+        'hong kong' => 'HKD',
+        'taiwan' => 'TWD',
+        'czech republic' => 'CZK',
+        'czechia' => 'CZK',
+        'hungary' => 'HUF',
+        'romania' => 'RON',
+        'bulgaria' => 'BGN',
+        'sri lanka' => 'LKR',
+        'pakistan' => 'PKR',
+        'bangladesh' => 'BDT',
+    ];
+
+    public function getCurrencyForCountry(?string $country): ?string
+    {
+        if (!$country) {
+            return null;
+        }
+        $key = strtolower(trim($country));
+        return self::$countryCurrencyMap[$key] ?? null;
+    }
+
     public function updatedCountry($value): void
     {
         $this->isCustomCountry = ($value === 'ADD_NEW');
         if ($this->isCustomCountry) {
             $this->custom_country_name = '';
+        } else {
+            $currency = $this->getCurrencyForCountry($value);
+            if ($currency) {
+                $this->currency_code = $currency;
+            }
+        }
+    }
+
+    public function updatedCustomCountryName($value): void
+    {
+        $currency = $this->getCurrencyForCountry($value);
+        if ($currency) {
+            $this->currency_code = $currency;
         }
     }
 

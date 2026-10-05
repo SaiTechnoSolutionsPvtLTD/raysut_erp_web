@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Counter extends Model
 {
@@ -29,5 +30,10 @@ class Counter extends Model
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'branch_id');
+    }
+
+    public function shifts(): HasMany
+    {
+        return $this->hasMany(CashierShift::class, 'counter_id', 'counter_id');
     }
 }

@@ -109,35 +109,37 @@ test('branch management component auto generates branch code and creates custom 
     $this->seed();
 
     $admin = User::where('username', 'admin')->first();
+    $expectedBranchCode = 'BR-' . str_pad((string)((Branch::max('branch_id') ?? 0) + 1), 3, '0', STR_PAD_LEFT);
 
     Livewire::actingAs($admin)
         ->test(\App\Livewire\System\BranchManagement::class)
         ->call('create')
-        ->assertSet('branch_code', 'BR-004')
-        ->set('branch_name', 'Nizwa Regional Distribution')
+        ->assertSet('branch_code', $expectedBranchCode)
+        ->set('branch_name', 'Sur Terminal Distribution')
         ->set('branch_type', 'ADD_NEW')
         ->set('custom_branch_type', 'LOGISTICS')
-        ->set('city', 'Nizwa')
+        ->set('city', 'Sur')
         ->call('save')
         ->assertHasNoErrors()
         ->assertSet('isModalOpen', false);
 
-    $branch = Branch::where('branch_code', 'BR-004')->first();
+    $branch = Branch::where('branch_code', $expectedBranchCode)->first();
     expect($branch)->not->toBeNull();
-    expect($branch->branch_name)->toBe('Nizwa Regional Distribution');
+    expect($branch->branch_name)->toBe('Sur Terminal Distribution');
     expect($branch->branch_type)->toBe('LOGISTICS');
-    expect($branch->city)->toBe('Nizwa');
+    expect($branch->city)->toBe('Sur');
 });
 
 test('warehouse management component auto generates code, custom warehouse type and deletes via confirm modal', function () {
     $this->seed();
 
     $admin = User::where('username', 'admin')->first();
+    $expectedWhCode = 'WH-' . str_pad((string)((Warehouse::max('warehouse_id') ?? 0) + 1), 3, '0', STR_PAD_LEFT);
 
     Livewire::actingAs($admin)
         ->test(\App\Livewire\System\WarehouseManagement::class)
         ->call('create')
-        ->assertSet('warehouse_code', 'WH-004')
+        ->assertSet('warehouse_code', $expectedWhCode)
         ->set('warehouse_name', 'Duqm Freezone Cold Storage')
         ->set('warehouse_type', 'ADD_NEW')
         ->set('custom_warehouse_type', 'COLD_CHAIN')
@@ -146,7 +148,7 @@ test('warehouse management component auto generates code, custom warehouse type 
         ->assertHasNoErrors()
         ->assertSet('isModalOpen', false);
 
-    $wh = Warehouse::where('warehouse_code', 'WH-004')->first();
+    $wh = Warehouse::where('warehouse_code', $expectedWhCode)->first();
     expect($wh)->not->toBeNull();
     expect($wh->warehouse_name)->toBe('Duqm Freezone Cold Storage');
     expect($wh->warehouse_type)->toBe('COLD_CHAIN');

@@ -57,8 +57,17 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // 3. Seed 3 Named Facilities / Warehouses
-        $whMuscat = Warehouse::create([
+        $branchNzw = Branch::create([
+            'company_id' => $company->company_id,
+            'branch_code' => 'BR-NZW',
+            'branch_name' => 'Nizwa Regional Distribution',
+            'branch_type' => 'RETAIL',
+            'city' => 'Nizwa',
+            'is_active' => true,
+        ]);
+
+        // 3. Seed 3 Duty-Free Bonded Facilities & Main Warehouses
+        $whMuscatBonded = Warehouse::create([
             'company_id' => $company->company_id,
             'branch_id' => $branchMct->branch_id,
             'warehouse_code' => 'WH-MCT-BOND',
@@ -68,17 +77,17 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $whSalalah = Warehouse::create([
+        $whSalalahDepot = Warehouse::create([
             'company_id' => $company->company_id,
             'branch_id' => $branchSll->branch_id,
             'warehouse_code' => 'WH-SLL-DEPOT',
             'warehouse_name' => 'Salalah Freezone Depot',
-            'warehouse_type' => 'MAIN',
+            'warehouse_type' => 'DUTY_FREE_BONDED',
             'customs_bond_ref' => 'SFZ-BOND-002',
             'is_active' => true,
         ]);
 
-        $whSohar = Warehouse::create([
+        $whSoharBonded = Warehouse::create([
             'company_id' => $company->company_id,
             'branch_id' => $branchSoh->branch_id,
             'warehouse_code' => 'WH-SOH-BOND',
@@ -88,7 +97,27 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        // 4. Seed Counters
+        $whMuscatMain = Warehouse::create([
+            'company_id' => $company->company_id,
+            'branch_id' => $branchMct->branch_id,
+            'warehouse_code' => 'WH-MCT-MAIN',
+            'warehouse_name' => 'Muscat Main Distribution Center',
+            'warehouse_type' => 'MAIN',
+            'customs_bond_ref' => null,
+            'is_active' => true,
+        ]);
+
+        $whNizwaMain = Warehouse::create([
+            'company_id' => $company->company_id,
+            'branch_id' => $branchNzw->branch_id,
+            'warehouse_code' => 'WH-NZW-MAIN',
+            'warehouse_name' => 'Nizwa Main Depot',
+            'warehouse_type' => 'MAIN',
+            'customs_bond_ref' => null,
+            'is_active' => true,
+        ]);
+
+        // 4. Seed Counters per Branch
         Counter::create([
             'branch_id' => $branchMct->branch_id,
             'counter_code' => 'CNT-MCT-01',
@@ -102,6 +131,30 @@ class DatabaseSeeder extends Seeder
             'counter_code' => 'CNT-MCT-02',
             'counter_name' => 'Express Counter 02',
             'terminal_id' => 'POS-T102',
+            'is_active' => true,
+        ]);
+
+        Counter::create([
+            'branch_id' => $branchSll->branch_id,
+            'counter_code' => 'CNT-SLL-01',
+            'counter_name' => 'Salalah Regional Checkout 01',
+            'terminal_id' => 'POS-T201',
+            'is_active' => true,
+        ]);
+
+        Counter::create([
+            'branch_id' => $branchSoh->branch_id,
+            'counter_code' => 'CNT-SOH-01',
+            'counter_name' => 'Sohar Terminal Counter 01',
+            'terminal_id' => 'POS-T301',
+            'is_active' => true,
+        ]);
+
+        Counter::create([
+            'branch_id' => $branchNzw->branch_id,
+            'counter_code' => 'CNT-NZW-01',
+            'counter_name' => 'Nizwa Branch Counter 01',
+            'terminal_id' => 'POS-T401',
             'is_active' => true,
         ]);
 
