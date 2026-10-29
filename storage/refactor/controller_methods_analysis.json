@@ -1,0 +1,529 @@
+{
+    "BranchController": {
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "create": {
+            "has_route": true,
+            "route": "GET|HEAD system/branches/create [name: system.branches.create]",
+            "route_name": "system.branches.create",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\SystemSetupPhase1Test.php"
+            ]
+        },
+        "store": {
+            "has_route": true,
+            "route": "POST system/branches [name: system.branches.store]",
+            "route_name": "system.branches.store",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\SystemSetupPhase1Test.php"
+            ]
+        },
+        "edit": {
+            "has_route": true,
+            "route": "GET|HEAD system/branches/{branch}/edit [name: system.branches.edit]",
+            "route_name": "system.branches.edit",
+            "route_name_refs": []
+        },
+        "update": {
+            "has_route": true,
+            "route": "PUT system/branches/{branch} [name: system.branches.update]",
+            "route_name": "system.branches.update",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "toggleStatus": {
+            "has_route": true,
+            "route": "PATCH system/branches/{branch}/toggle-status [name: system.branches.toggle-status]",
+            "route_name": "system.branches.toggle-status",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "switchBranch": {
+            "has_route": true,
+            "route": "POST system/branches/switch [name: system.branches.switch]",
+            "route_name": "system.branches.switch",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "destroy": {
+            "has_route": true,
+            "route": "DELETE system/branches/{branch} [name: system.branches.destroy]",
+            "route_name": "system.branches.destroy",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        }
+    },
+    "CounterController": {
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "store": {
+            "has_route": true,
+            "route": "POST system/counters [name: system.counters.store]",
+            "route_name": "system.counters.store",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "update": {
+            "has_route": true,
+            "route": "PUT system/counters/{counter} [name: system.counters.update]",
+            "route_name": "system.counters.update",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "assignCashier": {
+            "has_route": true,
+            "route": "POST system/counters/{counter}/assign [name: system.counters.assign]",
+            "route_name": "system.counters.assign",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "toggleStatus": {
+            "has_route": true,
+            "route": "PATCH system/counters/{counter}/toggle-status [name: system.counters.toggle-status]",
+            "route_name": "system.counters.toggle-status",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "destroy": {
+            "has_route": true,
+            "route": "DELETE system/counters/{counter} [name: system.counters.destroy]",
+            "route_name": "system.counters.destroy",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        }
+    },
+    "ShiftController": {
+        "__construct": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "showOpenForm": {
+            "has_route": true,
+            "route": "GET|HEAD shifts/open [name: shifts.open]",
+            "route_name": "shifts.open",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\retail\\pos\\terminal.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "open": {
+            "has_route": true,
+            "route": "POST shifts/open [name: shifts.open.store]",
+            "route_name": "shifts.open.store",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "showCloseForm": {
+            "has_route": true,
+            "route": "GET|HEAD shifts/{shift}/close [name: shifts.show-close]",
+            "route_name": "shifts.show-close",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\retail\\pos\\terminal.blade.php"
+            ]
+        },
+        "close": {
+            "has_route": true,
+            "route": "POST shifts/{shift}/close [name: shifts.close.store]",
+            "route_name": "shifts.close.store",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "approve": {
+            "has_route": true,
+            "route": "POST shifts/{shift}/approve [name: shifts.approve]",
+            "route_name": "shifts.approve",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Phase3ExitTest.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "reject": {
+            "has_route": true,
+            "route": "POST shifts/{shift}/reject [name: shifts.reject]",
+            "route_name": "shifts.reject",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        },
+        "printSummary": {
+            "has_route": true,
+            "route": "GET|HEAD shifts/{shift}/print [name: shifts.print]",
+            "route_name": "shifts.print",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\branch-operations\\shift-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint31BranchAndShiftTest.php"
+            ]
+        }
+    },
+    "PermitController": {
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "create": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "store": {
+            "has_route": true,
+            "route": "POST permits [name: permits.store]",
+            "route_name": "permits.store",
+            "route_name_refs": []
+        },
+        "edit": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "update": {
+            "has_route": true,
+            "route": "PUT permits/{permit} [name: permits.update]",
+            "route_name": "permits.update",
+            "route_name_refs": []
+        },
+        "toggleStatus": {
+            "has_route": true,
+            "route": "PATCH permits/{permit}/toggle-status [name: permits.toggle-status]",
+            "route_name": "permits.toggle-status",
+            "route_name_refs": []
+        }
+    },
+    "QuotationController": {
+        "__construct": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "create": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/quotations/create [name: wholesale.quotations.create]",
+            "route_name": "wholesale.quotations.create",
+            "route_name_refs": []
+        },
+        "store": {
+            "has_route": true,
+            "route": "POST wholesale/quotations [name: wholesale.quotations.store]",
+            "route_name": "wholesale.quotations.store",
+            "route_name_refs": []
+        },
+        "show": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/quotations/{quotation} [name: wholesale.quotations.show]",
+            "route_name": "wholesale.quotations.show",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\quotation-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\print.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint33WholesaleFlowTest.php"
+            ]
+        },
+        "edit": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/quotations/{quotation}/edit [name: wholesale.quotations.edit]",
+            "route_name": "wholesale.quotations.edit",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php"
+            ]
+        },
+        "update": {
+            "has_route": true,
+            "route": "PUT wholesale/quotations/{quotation} [name: wholesale.quotations.update]",
+            "route_name": "wholesale.quotations.update",
+            "route_name_refs": []
+        },
+        "send": {
+            "has_route": true,
+            "route": "POST wholesale/quotations/{quotation}/send [name: wholesale.quotations.send]",
+            "route_name": "wholesale.quotations.send",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php"
+            ]
+        },
+        "accept": {
+            "has_route": true,
+            "route": "POST wholesale/quotations/{quotation}/accept [name: wholesale.quotations.accept]",
+            "route_name": "wholesale.quotations.accept",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php"
+            ]
+        },
+        "reject": {
+            "has_route": true,
+            "route": "POST wholesale/quotations/{quotation}/reject [name: wholesale.quotations.reject]",
+            "route_name": "wholesale.quotations.reject",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php"
+            ]
+        },
+        "convert": {
+            "has_route": true,
+            "route": "POST wholesale/quotations/{quotation}/convert [name: wholesale.quotations.convert]",
+            "route_name": "wholesale.quotations.convert",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php"
+            ]
+        },
+        "print": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/quotations/{quotation}/print [name: wholesale.quotations.print]",
+            "route_name": "wholesale.quotations.print",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\quotation-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint33WholesaleFlowTest.php"
+            ]
+        }
+    },
+    "SalesOrderController": {
+        "__construct": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "create": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/orders/create [name: wholesale.orders.create]",
+            "route_name": "wholesale.orders.create",
+            "route_name_refs": []
+        },
+        "store": {
+            "has_route": true,
+            "route": "POST wholesale/orders [name: wholesale.orders.store]",
+            "route_name": "wholesale.orders.store",
+            "route_name_refs": []
+        },
+        "show": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/orders/{order} [name: wholesale.orders.show]",
+            "route_name": "wholesale.orders.show",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\delivery-note-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\sales-invoice-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\sales-order-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\delivery-notes\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\invoices\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\quotations\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Phase3ExitTest.php"
+            ]
+        },
+        "confirm": {
+            "has_route": true,
+            "route": "POST wholesale/orders/{order}/confirm [name: wholesale.orders.confirm]",
+            "route_name": "wholesale.orders.confirm",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php"
+            ]
+        },
+        "cancel": {
+            "has_route": true,
+            "route": "POST wholesale/orders/{order}/cancel [name: wholesale.orders.cancel]",
+            "route_name": "wholesale.orders.cancel",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php"
+            ]
+        }
+    },
+    "DeliveryNoteController": {
+        "__construct": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "create": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/delivery-notes/create [name: wholesale.delivery-notes.create]",
+            "route_name": "wholesale.delivery-notes.create",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php"
+            ]
+        },
+        "store": {
+            "has_route": true,
+            "route": "POST wholesale/delivery-notes [name: wholesale.delivery-notes.store]",
+            "route_name": "wholesale.delivery-notes.store",
+            "route_name_refs": []
+        },
+        "show": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/delivery-notes/{deliveryNote} [name: wholesale.delivery-notes.show]",
+            "route_name": "wholesale.delivery-notes.show",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\delivery-note-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\sales-invoice-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\delivery-notes\\print.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php"
+            ]
+        },
+        "print": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/delivery-notes/{deliveryNote}/print [name: wholesale.delivery-notes.print]",
+            "route_name": "wholesale.delivery-notes.print",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\delivery-note-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\delivery-notes\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint33WholesaleFlowTest.php"
+            ]
+        }
+    },
+    "InvoiceController": {
+        "__construct": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "show": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/invoices/{invoice} [name: wholesale.invoices.show]",
+            "route_name": "wholesale.invoices.show",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\sales-invoice-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\credit\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\delivery-notes\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\invoices\\print.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php"
+            ]
+        },
+        "postFromDeliveryNote": {
+            "has_route": true,
+            "route": "POST wholesale/invoices/from-delivery-note/{deliveryNote} [name: wholesale.invoices.post-dn]",
+            "route_name": "wholesale.invoices.post-dn",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\delivery-notes\\show.blade.php"
+            ]
+        },
+        "postFromOrder": {
+            "has_route": true,
+            "route": "POST wholesale/invoices/from-order/{order} [name: wholesale.invoices.post-order]",
+            "route_name": "wholesale.invoices.post-order",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\orders\\show.blade.php"
+            ]
+        },
+        "void": {
+            "has_route": true,
+            "route": "POST wholesale/invoices/{invoice}/void [name: wholesale.invoices.void]",
+            "route_name": "wholesale.invoices.void",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\invoices\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Phase3ExitTest.php"
+            ]
+        },
+        "recordPayment": {
+            "has_route": true,
+            "route": "POST wholesale/invoices/{invoice}/payments [name: wholesale.invoices.payments]",
+            "route_name": "wholesale.invoices.payments",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\invoices\\show.blade.php"
+            ]
+        },
+        "print": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/invoices/{invoice}/print [name: wholesale.invoices.print]",
+            "route_name": "wholesale.invoices.print",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\sales-invoice-management.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\invoices\\show.blade.php",
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/tests\\Feature\\Sprint33WholesaleFlowTest.php"
+            ]
+        }
+    },
+    "CustomerCreditController": {
+        "__construct": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "index": {
+            "has_route": false,
+            "route": null,
+            "route_name": null,
+            "route_name_refs": []
+        },
+        "show": {
+            "has_route": true,
+            "route": "GET|HEAD wholesale/credit/{customer} [name: wholesale.credit.show]",
+            "route_name": "wholesale.credit.show",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\livewire\\sales\\wholesale\\customer-credit-management.blade.php"
+            ]
+        },
+        "toggleStatus": {
+            "has_route": true,
+            "route": "PATCH wholesale/credit/{customer}/toggle-status [name: wholesale.credit.toggle-status]",
+            "route_name": "wholesale.credit.toggle-status",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\credit\\show.blade.php"
+            ]
+        },
+        "updateTerms": {
+            "has_route": true,
+            "route": "POST wholesale/credit/{customer}/terms [name: wholesale.credit.update-terms]",
+            "route_name": "wholesale.credit.update-terms",
+            "route_name_refs": [
+                "D:\\Work\\Sai_Techno_Solutions\\Raysut\\rmsc-erp/resources/views\\sales\\wholesale\\credit\\show.blade.php"
+            ]
+        }
+    }
+}

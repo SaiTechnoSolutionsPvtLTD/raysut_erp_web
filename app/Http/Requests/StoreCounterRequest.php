@@ -18,6 +18,7 @@ class StoreCounterRequest extends FormRequest
             'counter_code' => 'required|string|max:20',
             'counter_name' => 'required|string|max:100',
             'terminal_id' => 'nullable|string|max:50',
+            'assigned_user_id' => 'nullable|exists:users,user_id',
             'is_active' => 'boolean',
         ];
     }

@@ -271,7 +271,7 @@
 
     <!-- VIEW DETAILS MODAL -->
     <div x-cloak x-show="openView" class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
-        <div class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]" @click.away="openView = false; $wire.closeViewModal()">
+        <div class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl mx-auto overflow-hidden flex flex-col max-h-[90vh]" style="max-width: 672px; max-height: 90vh;" @click.away="openView = false; $wire.closeViewModal()">
             <!-- Modal Header -->
             <div class="px-6 py-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between shrink-0">
                 <div class="flex items-center space-x-3">
@@ -405,8 +405,8 @@
          class="fixed inset-0 z-50 overflow-hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
          style="display: none;">
         <div @click.away="openAction = false" 
-             class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden transform transition-all relative flex flex-col min-h-0"
-             style="max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
+             class="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg mx-auto overflow-hidden transform transition-all relative flex flex-col min-h-0"
+             style="max-width: 512px; max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
             <!-- Modal Header -->
             <div class="px-6 py-4 bg-slate-50/60 border-b border-slate-100 flex items-center justify-between rounded-t-2xl shrink-0">
                 <div class="flex items-center space-x-3">

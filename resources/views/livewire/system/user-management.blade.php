@@ -97,7 +97,8 @@
              class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
              style="display: none;">
             <div @click.away="open = false; $wire.set('isModalOpen', false)" 
-                 class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative">
+                 class="bg-white rounded-2xl max-w-xl w-full mx-auto shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative"
+                 style="max-width: 576px;">
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between rounded-t-2xl">
                     <h3 class="font-bold text-slate-900 text-base">{{ $editingUserId ? 'Edit User Account' : 'Create User Account' }}</h3>
                     <button type="button" @click="open = false; $wire.set('isModalOpen', false)" class="text-slate-400 hover:text-slate-600">

@@ -7,6 +7,7 @@ use App\Traits\HasBranchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CashierShift extends Model
 {
@@ -67,5 +68,10 @@ class CashierShift extends Model
     public function isOpen(): bool
     {
         return $this->status === 'OPEN';
+    }
+
+    public function retailSales(): HasMany
+    {
+        return $this->hasMany(RetailSale::class, 'cashier_shift_id', 'shift_id');
     }
 }

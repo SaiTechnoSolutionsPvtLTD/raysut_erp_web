@@ -1,0 +1,11 @@
+{
+  "civil_id": "12345678",
+  "holder_name": "Ahmed Said Al Harthy",
+  "permit_no": "LQ-2026-004517",
+  "valid_from": "2025-01-01",
+  "valid_to": "2026-06-30",
+  "annual_limit": 500.000,
+  "used_amount": 120.500,
+  "remaining_amount": 379.500,
+  "status": "EXPIRED"
+}

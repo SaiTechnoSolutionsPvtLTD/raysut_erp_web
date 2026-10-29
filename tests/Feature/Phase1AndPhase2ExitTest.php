@@ -24,6 +24,7 @@ use App\Models\Warehouse;
 use App\Models\WarehouseStock;
 use App\Services\StockLedgerService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class Phase1AndPhase2ExitTest extends TestCase
@@ -36,7 +37,7 @@ class Phase1AndPhase2ExitTest extends TestCase
         $this->seed();
     }
 
-    /** @test */
+    #[Test]
     public function phase_1_foundation_and_system_setup_is_fully_configured()
     {
         // 1. Company Setup
@@ -68,7 +69,7 @@ class Phase1AndPhase2ExitTest extends TestCase
         $this->assertGreaterThan(0, Uom::count(), 'Units of Measure must exist.');
     }
 
-    /** @test */
+    #[Test]
     public function phase_2_end_to_end_stock_flow_import_to_duty_free_to_duty_paid_to_main_warehouse()
     {
         $user = User::where('email', 'admin@rmsc.om')->first();

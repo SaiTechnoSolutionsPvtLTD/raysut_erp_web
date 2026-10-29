@@ -51,4 +51,9 @@ class CashierShiftPolicy
     {
         return $user->hasPermission('Branch & Shift Operations', 'APPROVE') || $user->hasRole('Branch Admin') || $user->hasRole('HQ Admin');
     }
+
+    public function reject(User $user, CashierShift $shift): bool
+    {
+        return $this->approve($user, $shift);
+    }
 }

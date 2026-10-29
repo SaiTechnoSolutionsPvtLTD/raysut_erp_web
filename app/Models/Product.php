@@ -26,15 +26,37 @@ class Product extends Model
         'pack_size',
         'reorder_level',
         'is_duty_free_eligible',
+        'is_permit_required',
         'image_path',
         'is_active',
     ];
 
     protected $casts = [
         'is_duty_free_eligible' => 'boolean',
+        'is_permit_required' => 'boolean',
         'is_active' => 'boolean',
         'reorder_level' => 'decimal:2',
     ];
+
+    public function requiresPermit(): bool
+    {
+        if ($this->is_permit_required) {
+            return true;
+        }
+
+        $categoryName = strtolower($this->category?->category_name ?? '');
+        return in_array($categoryName, [
+            'spirits',
+            'wine',
+            'beer',
+            'liqueurs',
+            'scotch whisky',
+            'vodka',
+            'cognac & brandy',
+            'liquor',
+            'alcohol',
+        ]);
+    }
 
     public function category()
     {

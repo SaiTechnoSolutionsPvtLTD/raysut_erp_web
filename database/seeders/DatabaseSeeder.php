@@ -175,7 +175,7 @@ class DatabaseSeeder extends Seeder
             'Integrations & System Settings',
         ];
 
-        $actions = ['VIEW', 'CREATE', 'EDIT', 'DELETE'];
+        $actions = ['VIEW', 'CREATE', 'EDIT', 'DELETE', 'APPROVE'];
         $createdPermissions = [];
 
         foreach ($modules as $mod) {
@@ -192,6 +192,21 @@ class DatabaseSeeder extends Seeder
         $superAdminRole = Role::create([
             'role_name' => 'Super Admin',
             'description' => 'Full unrestricted system-wide administrative access',
+        ]);
+
+        $hqAdminRole = Role::create([
+            'role_name' => 'HQ Admin',
+            'description' => 'HQ administrative access across all branches',
+        ]);
+
+        $branchAdminRole = Role::create([
+            'role_name' => 'Branch Admin',
+            'description' => 'Branch administration, staff, and counters management',
+        ]);
+
+        $supervisorRole = Role::create([
+            'role_name' => 'Supervisor',
+            'description' => 'Branch supervisor with shift variance approvals and credit override permissions',
         ]);
 
         $branchManagerRole = Role::create([
@@ -211,14 +226,31 @@ class DatabaseSeeder extends Seeder
 
         // Attach permissions to roles
         $superAdminRole->permissions()->sync(collect($createdPermissions)->pluck('permission_id')->toArray());
+        $hqAdminRole->permissions()->sync(collect($createdPermissions)->pluck('permission_id')->toArray());
+
+        $branchAdminPerms = Permission::whereIn('module_name', ['Branch & Shift Operations', 'Retail & Wholesale Sales', 'Master Data', 'Warehouse & Inventory'])->pluck('permission_id');
+        $branchAdminRole->permissions()->sync($branchAdminPerms);
+
+        $supervisorPerms = Permission::where(function ($q) {
+            $q->whereIn('module_name', ['Branch & Shift Operations', 'Retail & Wholesale Sales'])
+              ->whereIn('action_code', ['VIEW', 'CREATE', 'EDIT', 'APPROVE']);
+        })->orWhere(function ($q) {
+            $q->whereIn('module_name', ['Master Data', 'Warehouse & Inventory'])
+              ->where('action_code', 'VIEW');
+        })->pluck('permission_id');
+        $supervisorRole->permissions()->sync($supervisorPerms);
 
         $bmPerms = Permission::whereIn('module_name', ['Master Data', 'Purchase & Import', 'Warehouse & Inventory', 'Branch & Shift Operations', 'Retail & Wholesale Sales'])->pluck('permission_id');
         $branchManagerRole->permissions()->sync($bmPerms);
 
-        $cashierPerms = Permission::whereIn('module_name', ['Branch & Shift Operations', 'Retail & Wholesale Sales'])->pluck('permission_id');
+        $cashierPerms = Permission::whereIn('module_name', ['Branch & Shift Operations', 'Retail & Wholesale Sales'])
+            ->whereIn('action_code', ['VIEW', 'CREATE'])
+            ->pluck('permission_id');
         $cashierRole->permissions()->sync($cashierPerms);
 
-        $whPerms = Permission::whereIn('module_name', ['Warehouse & Inventory', 'Purchase & Import'])->pluck('permission_id');
+        $whPerms = Permission::whereIn('module_name', ['Warehouse & Inventory', 'Purchase & Import'])
+            ->whereIn('action_code', ['VIEW', 'CREATE', 'EDIT'])
+            ->pluck('permission_id');
         $whOperatorRole->permissions()->sync($whPerms);
 
         // 7. Seed Users
@@ -316,6 +348,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MasterDataSeeder::class,
             PurchaseAndInventorySeeder::class,
+            DutyPaidConversionSeeder::class,
         ]);
     }
 }

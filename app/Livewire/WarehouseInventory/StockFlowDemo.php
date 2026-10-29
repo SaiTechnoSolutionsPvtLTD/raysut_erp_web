@@ -253,10 +253,11 @@ class StockFlowDemo extends Component
 
                 AuditLog::create([
                     'user_id' => auth()->id(),
-                    'action_type' => 'END_TO_END_DEMO_RUN',
-                    'entity_type' => 'DutyPaidConversion',
-                    'entity_id' => $conversion->conversion_id,
-                    'details_json' => json_encode(['ref' => $conversionRef]),
+                    'module_name' => 'Warehouse & Inventory',
+                    'action' => 'END_TO_END_DEMO_RUN',
+                    'record_table' => 'duty_paid_conversions',
+                    'record_id' => $conversion->conversion_id,
+                    'details_json' => ['ref' => $conversionRef],
                     'ip_address' => request()->ip(),
                 ]);
             });

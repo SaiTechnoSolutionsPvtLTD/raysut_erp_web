@@ -43,6 +43,13 @@ class ShiftService
                 throw new Exception("Cannot open shift: Counter '{$counter->counter_name}' is currently inactive.");
             }
 
+            // Check 3: Cashier-to-counter assignment (enforced for cashiers; Super Admin and HQ Admin have managerial override)
+            if (! $user->hasRole('Super Admin') && ! $user->hasRole('HQ Admin')) {
+                if ($counter->assigned_user_id !== null && (int) $counter->assigned_user_id !== (int) $user->user_id) {
+                    throw new Exception("Counter '{$counter->counter_name}' is assigned to another cashier.");
+                }
+            }
+
             return CashierShift::create([
                 'user_id' => $user->user_id,
                 'counter_id' => $counter->counter_id,
@@ -71,30 +78,29 @@ class ShiftService
         }
 
         return DB::transaction(function () use ($shift, $countedCash, $cardTotal, $notes, $varianceThreshold) {
-            // Calculate cash and card sales from retail_sales table if it exists
-            $cashSales = 0.000;
-            $cardSales = $cardTotal;
+            // Calculate cash net and card sales from retail_sales table for this shift
+            $cashNetSales = 0.000;
+            $cardSalesFromDb = 0.000;
 
             if (Schema::hasTable('retail_sales')) {
-                $cashSales = (float) DB::table('retail_sales')
-                    ->where('shift_id', $shift->shift_id)
-                    ->where('payment_method', 'CASH')
+                $completedSales = DB::table('retail_sales')
+                    ->where('cashier_shift_id', $shift->shift_id)
                     ->where('status', 'COMPLETED')
-                    ->sum('total_amount');
+                    ->get();
 
-                $cardSalesFromDb = (float) DB::table('retail_sales')
-                    ->where('shift_id', $shift->shift_id)
-                    ->where('payment_method', 'CARD')
-                    ->where('status', 'COMPLETED')
-                    ->sum('total_amount');
-
-                if ($cardSalesFromDb > 0) {
-                    $cardSales = $cardSalesFromDb;
+                foreach ($completedSales as $sale) {
+                    $cashNet = (float) $sale->cash_amount - (float) $sale->change_given;
+                    $cashNetSales += max(0, $cashNet);
+                    $cardSalesFromDb += (float) $sale->card_amount;
                 }
             }
 
-            $expectedCash = (float) $shift->opening_float + $cashSales;
+            // Expected cash in drawer = opening float + net cash collected from retail sales
+            $expectedCash = (float) $shift->opening_float + $cashNetSales;
             $variance = $countedCash - $expectedCash;
+
+            // Card total: use cardSalesFromDb if sales exist, otherwise use card slips count provided
+            $finalCardTotal = $cardSalesFromDb > 0 ? $cardSalesFromDb : $cardTotal;
 
             // Determine variance status based on threshold
             $varianceStatus = 'BALANCED';
@@ -110,7 +116,7 @@ class ShiftService
                 'closed_at' => now(),
                 'expected_cash' => $expectedCash,
                 'counted_cash' => $countedCash,
-                'card_total' => $cardSales,
+                'card_total' => $finalCardTotal,
                 'variance' => $variance,
                 'variance_status' => $varianceStatus,
                 'status' => $varianceStatus === 'FLAGGED' ? 'CLOSED' : 'RECONCILED',
@@ -138,6 +144,28 @@ class ShiftService
             'variance_status' => 'APPROVED',
             'status' => 'RECONCILED',
             'notes' => $notes ? trim($shift->notes . "\nSupervisor Approval: " . $notes) : $shift->notes,
+        ]);
+
+        return $shift->fresh();
+    }
+
+    /**
+     * Supervisor rejection workflow for flagged shifts.
+     *
+     * @throws Exception
+     */
+    public function reject(CashierShift $shift, User $approver, ?string $notes = null): CashierShift
+    {
+        if ($shift->variance_status !== 'FLAGGED') {
+            throw new Exception("Only shifts flagged for variance require supervisor review.");
+        }
+
+        $shift->update([
+            'approved_by' => $approver->user_id,
+            'approved_at' => now(),
+            'variance_status' => 'REJECTED',
+            'status' => 'FLAGGED',
+            'notes' => $notes ? trim($shift->notes . "\nSupervisor Rejection: " . $notes) : $shift->notes,
         ]);
 
         return $shift->fresh();

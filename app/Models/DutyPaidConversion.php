@@ -46,4 +46,11 @@ class DutyPaidConversion extends Model
     {
         return $this->hasMany(DutyPaidConversionItem::class, 'conversion_id', 'conversion_id');
     }
+
+    public function getBayanDeclarationNoAttribute(): ?string
+    {
+        return $this->dutyAssessment?->shipment?->bayan_declaration_no
+            ?? $this->attributes['bayan_declaration_no']
+            ?? null;
+    }
 }

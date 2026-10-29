@@ -15,8 +15,11 @@ class AuditLog extends Model
         'user_id',
         'module_name',
         'action',
+        'action_type',
         'record_table',
+        'entity_type',
         'record_id',
+        'entity_id',
         'details_json',
         'ip_address',
     ];
@@ -25,6 +28,33 @@ class AuditLog extends Model
         'details_json' => 'array',
         'created_at' => 'datetime',
     ];
+
+    public function setActionTypeAttribute($value): void
+    {
+        $this->attributes['action'] = $value;
+    }
+
+    public function setEntityTypeAttribute($value): void
+    {
+        $this->attributes['record_table'] = $value;
+    }
+
+    public function setEntityIdAttribute($value): void
+    {
+        $this->attributes['record_id'] = $value;
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (AuditLog $log) {
+            if (empty($log->module_name)) {
+                $log->module_name = 'System, Security & Setup';
+            }
+            if (empty($log->action)) {
+                $log->action = 'ACTION';
+            }
+        });
+    }
 
     public function user(): BelongsTo
     {

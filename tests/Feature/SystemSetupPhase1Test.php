@@ -7,8 +7,10 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Warehouse;
 use App\Models\AuditLog;
+use App\Livewire\BranchOperations\BranchManagement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Livewire;
 
 uses(RefreshDatabase::class);
 
@@ -112,16 +114,16 @@ test('branch management component auto generates branch code and creates custom 
     $expectedBranchCode = 'BR-' . str_pad((string)((Branch::max('branch_id') ?? 0) + 1), 3, '0', STR_PAD_LEFT);
 
     Livewire::actingAs($admin)
-        ->test(\App\Livewire\System\BranchManagement::class)
-        ->call('create')
+        ->test(BranchManagement::class)
+        ->call('openCreateModal')
+        ->assertSet('showModal', true)
         ->assertSet('branch_code', $expectedBranchCode)
         ->set('branch_name', 'Sur Terminal Distribution')
-        ->set('branch_type', 'ADD_NEW')
-        ->set('custom_branch_type', 'LOGISTICS')
+        ->set('branch_type', 'LOGISTICS')
         ->set('city', 'Sur')
-        ->call('save')
+        ->call('saveBranch')
         ->assertHasNoErrors()
-        ->assertSet('isModalOpen', false);
+        ->assertSet('showModal', false);
 
     $branch = Branch::where('branch_code', $expectedBranchCode)->first();
     expect($branch)->not->toBeNull();
@@ -196,10 +198,10 @@ test('users with only view permission are blocked from calling create edit or de
         ->assertStatus(200)
         ->assertDontSee('Add New Branch');
 
-    // Attempting to invoke create livewire action aborts with 403
+    // Attempting to invoke create action aborts with 403
     Livewire::actingAs($user)
-        ->test(\App\Livewire\System\BranchManagement::class)
-        ->call('create')
-        ->assertStatus(403);
+        ->test(BranchManagement::class)
+        ->call('openCreateModal')
+        ->assertForbidden();
 });
 

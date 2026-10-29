@@ -28,6 +28,11 @@ class StockBatch extends Model
         'expiry_date' => 'date',
     ];
 
+    public function getBatchNoAttribute(): ?string
+    {
+        return $this->batch_number;
+    }
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'product_id');

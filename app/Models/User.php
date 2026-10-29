@@ -96,4 +96,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(CashierShift::class, 'user_id', 'user_id')->where('status', 'OPEN');
     }
+
+    public function assignedCounters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Counter::class, 'assigned_user_id', 'user_id');
+    }
 }

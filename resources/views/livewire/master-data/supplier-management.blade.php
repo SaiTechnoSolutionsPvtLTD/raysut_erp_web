@@ -149,7 +149,8 @@
              style="display: none;">
             {{-- FIX: removed overflow-hidden from the modal card so the country dropdown is not clipped --}}
             <div @click.away="if (!$wire.showItemDeleteModal) { open = false; $wire.set('showModal', false); }" 
-                 class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 transform transition-all relative">
+                 class="bg-white rounded-2xl max-w-2xl w-full mx-auto shadow-2xl border border-slate-200 transform transition-all relative"
+                 style="max-width: 672px;">
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between rounded-t-2xl">
                     <h3 class="font-bold text-slate-900 text-base">{{ $isEdit ? 'Edit Supplier' : 'Add New Supplier' }}</h3>
                     <button type="button" @click="open = false; $wire.set('showModal', false)" class="text-slate-400 hover:text-slate-600 transition">

@@ -89,10 +89,11 @@ class UomManagement extends Component
 
         AuditLog::create([
             'user_id' => auth()->id(),
-            'action_type' => $isEdit ? 'UPDATE' : 'CREATE',
-            'entity_type' => 'Uom',
-            'entity_id' => $uom->uom_id,
-            'details_json' => json_encode(['code' => $uom->uom_code, 'name' => $uom->uom_name]),
+            'module_name' => 'Master Data',
+            'action' => $isEdit ? 'UPDATE' : 'CREATE',
+            'record_table' => 'uoms',
+            'record_id' => $uom->uom_id,
+            'details_json' => ['code' => $uom->uom_code, 'name' => $uom->uom_name],
             'ip_address' => request()->ip(),
         ]);
 
@@ -113,10 +114,11 @@ class UomManagement extends Component
             
             AuditLog::create([
                 'user_id' => auth()->id(),
-                'action_type' => 'DELETE',
-                'entity_type' => 'Uom',
-                'entity_id' => $this->uomToDelete->uom_id,
-                'details_json' => json_encode(['name' => $name]),
+                'module_name' => 'Master Data',
+                'action' => 'DELETE',
+                'record_table' => 'uoms',
+                'record_id' => $this->uomToDelete->uom_id,
+                'details_json' => ['name' => $name],
                 'ip_address' => request()->ip(),
             ]);
 

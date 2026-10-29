@@ -21,6 +21,7 @@ class Branch extends Model
         'branch_name',
         'branch_type',
         'city',
+        'address',
         'is_active',
     ];
 

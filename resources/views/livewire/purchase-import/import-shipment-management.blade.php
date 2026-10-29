@@ -329,7 +329,8 @@
              class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
              style="display: none;">
             <div @click.away="if (!$wire.showItemDeleteModal && !$wire.showViewModal) { openModal = false; $wire.set('showModal', false); }" 
-                 class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative max-h-[calc(100vh-5rem)] flex flex-col my-auto">
+                 class="bg-white rounded-2xl max-w-2xl w-full mx-auto shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative max-h-[calc(100vh-5rem)] flex flex-col my-auto"
+                 style="max-width: 672px; max-height: calc(100vh - 5rem);">
                 
                 <!-- Modal Header -->
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between rounded-t-2xl shrink-0">
@@ -488,7 +489,8 @@
              class="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
              style="display: none;">
             <div @click.away="openView = false; $wire.closeViewModal()" 
-                 class="bg-white rounded-2xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative max-h-[calc(100vh-5rem)] flex flex-col my-auto">
+                 class="bg-white rounded-2xl max-w-2xl w-full mx-auto shadow-2xl border border-slate-200 overflow-hidden transform transition-all relative max-h-[calc(100vh-5rem)] flex flex-col my-auto"
+                 style="max-width: 672px; max-height: calc(100vh - 5rem);">
                 
                 @if($selectedShipmentDetails)
                     <!-- Details Header -->

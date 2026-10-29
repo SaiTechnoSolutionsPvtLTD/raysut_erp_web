@@ -96,10 +96,11 @@ class TaxVatManagement extends Component
 
         AuditLog::create([
             'user_id' => auth()->id(),
-            'action_type' => $isEdit ? 'UPDATE' : 'CREATE',
-            'entity_type' => 'TaxVatRate',
-            'entity_id' => $tax->tax_rate_id,
-            'details_json' => json_encode(['name' => $tax->tax_name, 'rate' => $tax->rate_percent]),
+            'module_name' => 'Master Data',
+            'action' => $isEdit ? 'UPDATE' : 'CREATE',
+            'record_table' => 'tax_vat_rates',
+            'record_id' => $tax->tax_rate_id,
+            'details_json' => ['name' => $tax->tax_name, 'rate' => $tax->rate_percent],
             'ip_address' => request()->ip(),
         ]);
 
@@ -120,10 +121,11 @@ class TaxVatManagement extends Component
 
             AuditLog::create([
                 'user_id' => auth()->id(),
-                'action_type' => 'DELETE',
-                'entity_type' => 'TaxVatRate',
-                'entity_id' => $this->taxToDelete->tax_rate_id,
-                'details_json' => json_encode(['name' => $name]),
+                'module_name' => 'Master Data',
+                'action' => 'DELETE',
+                'record_table' => 'tax_vat_rates',
+                'record_id' => $this->taxToDelete->tax_rate_id,
+                'details_json' => ['name' => $name],
                 'ip_address' => request()->ip(),
             ]);
 

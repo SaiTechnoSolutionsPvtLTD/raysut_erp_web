@@ -77,7 +77,8 @@
              class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4"
              style="display: none;">
             <div @click.away="if (!$wire.showItemDeleteModal && !deleteOpen) { open = false; $wire.set('isModalOpen', false); }" 
-                 class="bg-white rounded-2xl max-w-lg w-full shadow-2xl border border-slate-200 transform transition-all relative">
+                 class="bg-white rounded-2xl max-w-lg w-full mx-auto shadow-2xl border border-slate-200 transform transition-all relative"
+                 style="max-width: 512px;">
                 <div class="px-6 py-4 bg-slate-50 border-b border-slate-100 flex items-center justify-between rounded-t-2xl">
                     <h3 class="font-bold text-slate-900 text-base">{{ $editingWarehouseId ? 'Edit Warehouse' : 'Add New Warehouse' }}</h3>
                     <button type="button" @click="open = false; $wire.set('isModalOpen', false)" class="text-slate-400 hover:text-slate-600">

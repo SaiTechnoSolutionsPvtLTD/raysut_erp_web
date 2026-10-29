@@ -288,8 +288,8 @@
          class="fixed inset-0 z-50 overflow-hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
          style="display: none;">
         <div @click.away="openModal = false; $wire.closeModal()" 
-             class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden transform transition-all relative flex flex-col min-h-0"
-             style="max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
+             class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-lg mx-auto overflow-hidden transform transition-all relative flex flex-col min-h-0"
+             style="max-width: 512px; max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
             <!-- Modal Header -->
             <div class="px-6 py-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between rounded-t-xl shrink-0">
                 <div class="flex items-center space-x-3">
@@ -398,8 +398,8 @@
          class="fixed inset-0 z-50 overflow-hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6"
          style="display: none;">
         <div @click.away="openView = false; $wire.closeViewModal()" 
-             class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden transform transition-all relative flex flex-col min-h-0"
-             style="max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
+             class="bg-white rounded-xl shadow-2xl border border-slate-200 w-full max-w-2xl mx-auto overflow-hidden transform transition-all relative flex flex-col min-h-0"
+             style="max-width: 672px; max-height: calc(100vh - 3rem); max-height: calc(100dvh - 3rem);">
             <!-- Modal Header -->
             <div class="px-6 py-4 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between rounded-t-xl shrink-0">
                 <div class="flex items-center space-x-3">

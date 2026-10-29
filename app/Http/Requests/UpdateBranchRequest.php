@@ -21,6 +21,7 @@ class UpdateBranchRequest extends FormRequest
             'branch_name' => 'required|string|max:150',
             'branch_type' => 'required|string|max:50',
             'city' => 'nullable|string|max:100',
+            'address' => 'nullable|string|max:500',
             'is_active' => 'boolean',
         ];
     }

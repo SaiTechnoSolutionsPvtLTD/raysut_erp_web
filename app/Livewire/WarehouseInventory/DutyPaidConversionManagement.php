@@ -3,10 +3,13 @@
 namespace App\Livewire\WarehouseInventory;
 
 use App\Models\AuditLog;
+use App\Models\DutyAssessment;
 use App\Models\DutyPaidConversion;
 use App\Models\DutyPaidConversionItem;
+use App\Models\ImportShipment;
 use App\Models\NumberingSeries;
 use App\Models\Product;
+use App\Models\PurchaseOrder;
 use App\Models\StockBatch;
 use App\Models\Warehouse;
 use App\Models\WarehouseStock;
@@ -35,11 +38,27 @@ class DutyPaidConversionManagement extends Component
     {
         $conversions = DutyPaidConversion::with([
             'warehouse',
-            'dutyAssessment',
+            'dutyAssessment.shipment',
             'approver',
             'items.batch.product',
         ])
-        ->where('conversion_number', 'like', "%{$this->search}%")
+        ->when($this->search, function ($query) {
+            $term = trim($this->search);
+            $query->where(function ($q) use ($term) {
+                $q->where('conversion_number', 'like', "%{$term}%")
+                  ->orWhereHas('dutyAssessment.shipment', function ($sq) use ($term) {
+                      $sq->where('bayan_declaration_no', 'like', "%{$term}%");
+                  })
+                  ->orWhereHas('warehouse', function ($wq) use ($term) {
+                      $wq->where('warehouse_name', 'like', "%{$term}%")
+                         ->orWhere('warehouse_code', 'like', "%{$term}%");
+                  })
+                  ->orWhereHas('items.batch.product', function ($pq) use ($term) {
+                      $pq->where('product_name', 'like', "%{$term}%")
+                         ->orWhere('sku_code', 'like', "%{$term}%");
+                  });
+            });
+        })
         ->orderBy('conversion_id', 'desc')
         ->paginate(10);
 
@@ -128,11 +147,38 @@ class DutyPaidConversionManagement extends Component
             $ref = 'DPC-' . date('Y') . '-' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
             $totalDuty = (float)$this->quantity_converted * (float)$this->duty_amount_per_unit;
 
+            // Link or create shipment and duty assessment for Bayan declaration
+            $shipment = ImportShipment::firstOrCreate(
+                ['bayan_declaration_no' => $this->bayan_declaration_no],
+                [
+                    'shipment_ref' => 'SHIP-DP-' . date('Ymd-His') . '-' . rand(100, 999),
+                    'po_id' => PurchaseOrder::first()?->po_id ?? 1,
+                    'port_of_entry' => 'Customs Clearance Station',
+                    'stage' => 'CUSTOMS_CLEARANCE',
+                    'eta_date' => now()->format('Y-m-d'),
+                    'actual_arrival_date' => now()->format('Y-m-d'),
+                ]
+            );
+
+            $assessment = DutyAssessment::firstOrCreate(
+                ['shipment_id' => $shipment->shipment_id],
+                [
+                    'cif_value' => $totalDuty,
+                    'duty_rate_percent' => 100.000,
+                    'duty_amount' => $totalDuty,
+                    'other_charges' => 0.000,
+                    'total_landed_cost' => $totalDuty,
+                    'assessed_by' => auth()->id(),
+                    'assessed_date' => now()->format('Y-m-d'),
+                ]
+            );
+
             // 1. Create Duty Paid Conversion record
             $conversion = DutyPaidConversion::create([
                 'conversion_number' => $ref,
                 'warehouse_id' => $this->destination_warehouse_id,
                 'conversion_date' => now()->format('Y-m-d'),
+                'assessment_id' => $assessment->assessment_id,
                 'status' => 'POSTED',
                 'approved_by' => auth()->id(),
             ]);
@@ -168,7 +214,17 @@ class DutyPaidConversionManagement extends Component
                 warehouseId: $this->bonded_warehouse_id,
                 productId: $bondedBatch->product_id,
                 batchId: $bondedBatch->batch_id,
-                quantity: $this->quantity_converted
+                quantity: $this->quantity_converted,
+                fromReserved: false,
+                saleType: null,
+                meta: [
+                    'movement_type' => 'TRANSFER_OUT',
+                    'reference_type' => 'duty_paid_conversion',
+                    'reference_id' => $conversion->conversion_id,
+                    'reference_no' => $ref,
+                    'notes' => 'Duty-paid conversion transfer to Main Warehouse (Bayan: ' . $this->bayan_declaration_no . ')',
+                    'user_id' => auth()->id(),
+                ]
             );
 
             // Intake into Destination Main Warehouse
@@ -176,21 +232,33 @@ class DutyPaidConversionManagement extends Component
                 warehouseId: $this->destination_warehouse_id,
                 productId: $bondedBatch->product_id,
                 batchId: $convertedBatch->batch_id,
-                quantity: $this->quantity_converted
+                quantity: $this->quantity_converted,
+                meta: [
+                    'movement_type' => 'TRANSFER_IN',
+                    'reference_type' => 'duty_paid_conversion',
+                    'reference_id' => $conversion->conversion_id,
+                    'reference_no' => $ref,
+                    'notes' => 'Duty-paid stock received from conversion ' . $ref,
+                    'user_id' => auth()->id(),
+                ]
             );
 
             // Log Audit
             AuditLog::create([
                 'user_id' => auth()->id(),
-                'action_type' => 'DUTY_PAID_CONVERSION',
-                'entity_type' => 'DutyPaidConversion',
-                'entity_id' => $conversion->conversion_id,
-                'details_json' => json_encode([
+                'module_name' => 'Warehouse & Inventory',
+                'action' => 'DUTY_PAID_CONVERSION',
+                'record_table' => 'duty_paid_conversions',
+                'record_id' => $conversion->conversion_id,
+                'details_json' => [
                     'ref' => $ref,
-                    'quantity' => $this->quantity_converted,
-                    'total_duty' => $totalDuty,
+                    'conversion_number' => $ref,
+                    'source_warehouse_id' => $this->bonded_warehouse_id,
+                    'destination_warehouse_id' => $this->destination_warehouse_id,
+                    'quantity' => (float) $this->quantity_converted,
+                    'total_duty' => (float) $totalDuty,
                     'bayan_no' => $this->bayan_declaration_no,
-                ]),
+                ],
                 'ip_address' => request()->ip(),
             ]);
         });

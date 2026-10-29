@@ -20,16 +20,28 @@ class Counter extends Model
         'counter_code',
         'counter_name',
         'terminal_id',
+        'assigned_user_id',
         'is_active',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'assigned_user_id' => 'integer',
     ];
 
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'branch_id');
+    }
+
+    public function assignedCashier(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_user_id', 'user_id');
+    }
+
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_user_id', 'user_id');
     }
 
     public function shifts(): HasMany

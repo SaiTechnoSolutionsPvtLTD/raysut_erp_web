@@ -1,0 +1,863 @@
+{
+    "branches/create.blade.php": {
+        "view_name": "branches.create",
+        "references_count": 4,
+        "references": [
+            "app/Http/Controllers/BranchController.php",
+            "resources/views/branches/index.blade.php",
+            "routes/web.php",
+            "tests/Feature/SystemSetupPhase1Test.php"
+        ]
+    },
+    "branches/edit.blade.php": {
+        "view_name": "branches.edit",
+        "references_count": 3,
+        "references": [
+            "app/Http/Controllers/BranchController.php",
+            "resources/views/branches/index.blade.php",
+            "routes/web.php"
+        ]
+    },
+    "branches/index.blade.php": {
+        "view_name": "branches.index",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/BranchController.php",
+            "resources/views/branches/create.blade.php",
+            "resources/views/branches/edit.blade.php",
+            "routes/web.php",
+            "tests/Feature/Sprint31BranchAndShiftTest.php"
+        ]
+    },
+    "components/action-message.blade.php": {
+        "view_name": "components.action-message",
+        "references_count": 2,
+        "references": [
+            "resources/views/livewire/profile/update-password-form.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php"
+        ]
+    },
+    "components/application-logo.blade.php": {
+        "view_name": "components.application-logo",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/layout/navigation.blade.php"
+        ]
+    },
+    "components/auth-session-status.blade.php": {
+        "view_name": "components.auth-session-status",
+        "references_count": 2,
+        "references": [
+            "resources/views/livewire/pages/auth/forgot-password.blade.php",
+            "resources/views/livewire/pages/auth/login.blade.php"
+        ]
+    },
+    "components/danger-button.blade.php": {
+        "view_name": "components.danger-button",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/profile/delete-user-form.blade.php"
+        ]
+    },
+    "components/dropdown-link.blade.php": {
+        "view_name": "components.dropdown-link",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/layout/navigation.blade.php"
+        ]
+    },
+    "components/dropdown.blade.php": {
+        "view_name": "components.dropdown",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/layout/navigation.blade.php"
+        ]
+    },
+    "components/input-error.blade.php": {
+        "view_name": "components.input-error",
+        "references_count": 8,
+        "references": [
+            "resources/views/livewire/pages/auth/confirm-password.blade.php",
+            "resources/views/livewire/pages/auth/forgot-password.blade.php",
+            "resources/views/livewire/pages/auth/login.blade.php",
+            "resources/views/livewire/pages/auth/register.blade.php",
+            "resources/views/livewire/pages/auth/reset-password.blade.php",
+            "resources/views/livewire/profile/delete-user-form.blade.php",
+            "resources/views/livewire/profile/update-password-form.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php"
+        ]
+    },
+    "components/input-label.blade.php": {
+        "view_name": "components.input-label",
+        "references_count": 6,
+        "references": [
+            "resources/views/livewire/pages/auth/confirm-password.blade.php",
+            "resources/views/livewire/pages/auth/forgot-password.blade.php",
+            "resources/views/livewire/pages/auth/reset-password.blade.php",
+            "resources/views/livewire/profile/delete-user-form.blade.php",
+            "resources/views/livewire/profile/update-password-form.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php"
+        ]
+    },
+    "components/logo.blade.php": {
+        "view_name": "components.logo",
+        "references_count": 1,
+        "references": [
+            "resources/views/components/sidebar.blade.php"
+        ]
+    },
+    "components/modal.blade.php": {
+        "view_name": "components.modal",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/profile/delete-user-form.blade.php"
+        ]
+    },
+    "components/nav-link.blade.php": {
+        "view_name": "components.nav-link",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/layout/navigation.blade.php"
+        ]
+    },
+    "components/primary-button.blade.php": {
+        "view_name": "components.primary-button",
+        "references_count": 6,
+        "references": [
+            "resources/views/livewire/pages/auth/confirm-password.blade.php",
+            "resources/views/livewire/pages/auth/forgot-password.blade.php",
+            "resources/views/livewire/pages/auth/reset-password.blade.php",
+            "resources/views/livewire/pages/auth/verify-email.blade.php",
+            "resources/views/livewire/profile/update-password-form.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php"
+        ]
+    },
+    "components/responsive-nav-link.blade.php": {
+        "view_name": "components.responsive-nav-link",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/layout/navigation.blade.php"
+        ]
+    },
+    "components/secondary-button.blade.php": {
+        "view_name": "components.secondary-button",
+        "references_count": 1,
+        "references": [
+            "resources/views/livewire/profile/delete-user-form.blade.php"
+        ]
+    },
+    "components/sidebar.blade.php": {
+        "view_name": "components.sidebar",
+        "references_count": 1,
+        "references": [
+            "resources/views/layouts/app.blade.php"
+        ]
+    },
+    "components/text-input.blade.php": {
+        "view_name": "components.text-input",
+        "references_count": 6,
+        "references": [
+            "resources/views/livewire/pages/auth/confirm-password.blade.php",
+            "resources/views/livewire/pages/auth/forgot-password.blade.php",
+            "resources/views/livewire/pages/auth/reset-password.blade.php",
+            "resources/views/livewire/profile/delete-user-form.blade.php",
+            "resources/views/livewire/profile/update-password-form.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php"
+        ]
+    },
+    "components/toast-notification.blade.php": {
+        "view_name": "components.toast-notification",
+        "references_count": 1,
+        "references": [
+            "resources/views/layouts/app.blade.php"
+        ]
+    },
+    "components/topbar.blade.php": {
+        "view_name": "components.topbar",
+        "references_count": 1,
+        "references": [
+            "resources/views/layouts/app.blade.php"
+        ]
+    },
+    "counters/index.blade.php": {
+        "view_name": "counters.index",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/CounterController.php",
+            "routes/web.php"
+        ]
+    },
+    "dashboard.blade.php": {
+        "view_name": "dashboard",
+        "references_count": 21,
+        "references": [
+            "app/Http/Controllers/Auth/VerifyEmailController.php",
+            "app/Http/Controllers/ShiftController.php",
+            "app/Http/Middleware/CheckPermission.php",
+            "app/Livewire/Components/BranchSwitcher.php",
+            "app/Livewire/Dashboard.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/livewire/layout/navigation.blade.php",
+            "resources/views/livewire/pages/auth/confirm-password.blade.php",
+            "resources/views/livewire/pages/auth/login.blade.php",
+            "resources/views/livewire/pages/auth/register.blade.php",
+            "resources/views/livewire/pages/auth/verify-email.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php",
+            "resources/views/livewire/welcome/navigation.blade.php",
+            "resources/views/shifts/open.blade.php",
+            "routes/web.php",
+            "tests/Feature/Auth/AuthenticationTest.php",
+            "tests/Feature/Auth/EmailVerificationTest.php",
+            "tests/Feature/Auth/PasswordConfirmationTest.php",
+            "tests/Feature/Auth/RegistrationTest.php",
+            "tests/Feature/Sprint31BranchAndShiftTest.php",
+            "tests/Feature/SystemSetupPhase1Test.php"
+        ]
+    },
+    "layouts/app.blade.php": {
+        "view_name": "layouts.app",
+        "references_count": 31,
+        "references": [
+            "app/Livewire/Dashboard.php",
+            "app/Livewire/MasterData/BranchManagement.php",
+            "app/Livewire/MasterData/CounterManagement.php",
+            "app/Livewire/MasterData/CustomerManagement.php",
+            "app/Livewire/MasterData/ProductManagement.php",
+            "app/Livewire/MasterData/SupplierManagement.php",
+            "app/Livewire/MasterData/TaxVatManagement.php",
+            "app/Livewire/MasterData/UomManagement.php",
+            "app/Livewire/Pos/ShiftManagement.php",
+            "app/Livewire/PurchaseImport/DutyAssessmentManagement.php",
+            "app/Livewire/PurchaseImport/GoodsReceiptManagement.php",
+            "app/Livewire/PurchaseImport/ImportShipmentManagement.php",
+            "app/Livewire/PurchaseImport/PurchaseOrderManagement.php",
+            "app/Livewire/Retail/PermitManagement.php",
+            "app/Livewire/System/AuditLogViewer.php",
+            "app/Livewire/System/CompanyManagement.php",
+            "app/Livewire/System/RoleManagement.php",
+            "app/Livewire/System/UserManagement.php",
+            "app/Livewire/System/WarehouseManagement.php",
+            "app/Livewire/WarehouseInventory/DutyPaidConversionManagement.php",
+            "app/Livewire/WarehouseInventory/StockAdjustments.php",
+            "app/Livewire/WarehouseInventory/StockBatches.php",
+            "app/Livewire/WarehouseInventory/StockFlowDemo.php",
+            "app/Livewire/WarehouseInventory/StockOnHand.php",
+            "app/Livewire/WarehouseInventory/StockTransfers.php",
+            "app/Livewire/Wholesale/CustomerCreditManagement.php",
+            "app/Livewire/Wholesale/DeliveryNoteManagement.php",
+            "app/Livewire/Wholesale/QuotationManagement.php",
+            "app/Livewire/Wholesale/SalesInvoiceManagement.php",
+            "app/Livewire/Wholesale/SalesOrderManagement.php",
+            "app/View/Components/AppLayout.php"
+        ]
+    },
+    "layouts/guest.blade.php": {
+        "view_name": "layouts.guest",
+        "references_count": 7,
+        "references": [
+            "app/View/Components/GuestLayout.php",
+            "resources/views/livewire/pages/auth/confirm-password.blade.php",
+            "resources/views/livewire/pages/auth/forgot-password.blade.php",
+            "resources/views/livewire/pages/auth/login.blade.php",
+            "resources/views/livewire/pages/auth/register.blade.php",
+            "resources/views/livewire/pages/auth/reset-password.blade.php",
+            "resources/views/livewire/pages/auth/verify-email.blade.php"
+        ]
+    },
+    "livewire/components/branch-switcher.blade.php": {
+        "view_name": "livewire.components.branch-switcher",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Components/BranchSwitcher.php"
+        ]
+    },
+    "livewire/dashboard.blade.php": {
+        "view_name": "livewire.dashboard",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Dashboard.php"
+        ]
+    },
+    "livewire/layout/navigation.blade.php": {
+        "view_name": "livewire.layout.navigation",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/master-data/branch-management.blade.php": {
+        "view_name": "livewire.master-data.branch-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/BranchManagement.php"
+        ]
+    },
+    "livewire/master-data/counter-management.blade.php": {
+        "view_name": "livewire.master-data.counter-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/CounterManagement.php"
+        ]
+    },
+    "livewire/master-data/customer-management.blade.php": {
+        "view_name": "livewire.master-data.customer-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/CustomerManagement.php"
+        ]
+    },
+    "livewire/master-data/product-management.blade.php": {
+        "view_name": "livewire.master-data.product-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/ProductManagement.php"
+        ]
+    },
+    "livewire/master-data/supplier-management.blade.php": {
+        "view_name": "livewire.master-data.supplier-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/SupplierManagement.php"
+        ]
+    },
+    "livewire/master-data/tax-vat-management.blade.php": {
+        "view_name": "livewire.master-data.tax-vat-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/TaxVatManagement.php"
+        ]
+    },
+    "livewire/master-data/uom-management.blade.php": {
+        "view_name": "livewire.master-data.uom-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/MasterData/UomManagement.php"
+        ]
+    },
+    "livewire/pages/auth/confirm-password.blade.php": {
+        "view_name": "livewire.pages.auth.confirm-password",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/pages/auth/forgot-password.blade.php": {
+        "view_name": "livewire.pages.auth.forgot-password",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/pages/auth/login.blade.php": {
+        "view_name": "livewire.pages.auth.login",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/pages/auth/register.blade.php": {
+        "view_name": "livewire.pages.auth.register",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/pages/auth/reset-password.blade.php": {
+        "view_name": "livewire.pages.auth.reset-password",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/pages/auth/verify-email.blade.php": {
+        "view_name": "livewire.pages.auth.verify-email",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/pos/shift-management.blade.php": {
+        "view_name": "livewire.pos.shift-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Pos/ShiftManagement.php"
+        ]
+    },
+    "livewire/profile/delete-user-form.blade.php": {
+        "view_name": "livewire.profile.delete-user-form",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/profile/update-password-form.blade.php": {
+        "view_name": "livewire.profile.update-password-form",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/profile/update-profile-information-form.blade.php": {
+        "view_name": "livewire.profile.update-profile-information-form",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/purchase-import/duty-assessment-management.blade.php": {
+        "view_name": "livewire.purchase-import.duty-assessment-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/PurchaseImport/DutyAssessmentManagement.php"
+        ]
+    },
+    "livewire/purchase-import/goods-receipt-management.blade.php": {
+        "view_name": "livewire.purchase-import.goods-receipt-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/PurchaseImport/GoodsReceiptManagement.php"
+        ]
+    },
+    "livewire/purchase-import/import-shipment-management.blade.php": {
+        "view_name": "livewire.purchase-import.import-shipment-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/PurchaseImport/ImportShipmentManagement.php"
+        ]
+    },
+    "livewire/purchase-import/purchase-order-management.blade.php": {
+        "view_name": "livewire.purchase-import.purchase-order-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/PurchaseImport/PurchaseOrderManagement.php"
+        ]
+    },
+    "livewire/retail/permit-management.blade.php": {
+        "view_name": "livewire.retail.permit-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Retail/PermitManagement.php"
+        ]
+    },
+    "livewire/system/audit-log-viewer.blade.php": {
+        "view_name": "livewire.system.audit-log-viewer",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/System/AuditLogViewer.php"
+        ]
+    },
+    "livewire/system/branch-management.blade.php": {
+        "view_name": "livewire.system.branch-management",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/system/company-management.blade.php": {
+        "view_name": "livewire.system.company-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/System/CompanyManagement.php"
+        ]
+    },
+    "livewire/system/counter-management.blade.php": {
+        "view_name": "livewire.system.counter-management",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/system/role-management.blade.php": {
+        "view_name": "livewire.system.role-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/System/RoleManagement.php"
+        ]
+    },
+    "livewire/system/user-management.blade.php": {
+        "view_name": "livewire.system.user-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/System/UserManagement.php"
+        ]
+    },
+    "livewire/system/warehouse-management.blade.php": {
+        "view_name": "livewire.system.warehouse-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/System/WarehouseManagement.php"
+        ]
+    },
+    "livewire/warehouse-inventory/duty-paid-conversion-management.blade.php": {
+        "view_name": "livewire.warehouse-inventory.duty-paid-conversion-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/WarehouseInventory/DutyPaidConversionManagement.php"
+        ]
+    },
+    "livewire/warehouse-inventory/stock-adjustments.blade.php": {
+        "view_name": "livewire.warehouse-inventory.stock-adjustments",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/WarehouseInventory/StockAdjustments.php"
+        ]
+    },
+    "livewire/warehouse-inventory/stock-batches.blade.php": {
+        "view_name": "livewire.warehouse-inventory.stock-batches",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/WarehouseInventory/StockBatches.php"
+        ]
+    },
+    "livewire/warehouse-inventory/stock-flow-demo.blade.php": {
+        "view_name": "livewire.warehouse-inventory.stock-flow-demo",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/WarehouseInventory/StockFlowDemo.php"
+        ]
+    },
+    "livewire/warehouse-inventory/stock-on-hand.blade.php": {
+        "view_name": "livewire.warehouse-inventory.stock-on-hand",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/WarehouseInventory/StockOnHand.php"
+        ]
+    },
+    "livewire/warehouse-inventory/stock-transfers.blade.php": {
+        "view_name": "livewire.warehouse-inventory.stock-transfers",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/WarehouseInventory/StockTransfers.php"
+        ]
+    },
+    "livewire/welcome/navigation.blade.php": {
+        "view_name": "livewire.welcome.navigation",
+        "references_count": 0,
+        "references": []
+    },
+    "livewire/wholesale/customer-credit-management.blade.php": {
+        "view_name": "livewire.wholesale.customer-credit-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Wholesale/CustomerCreditManagement.php"
+        ]
+    },
+    "livewire/wholesale/delivery-note-management.blade.php": {
+        "view_name": "livewire.wholesale.delivery-note-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Wholesale/DeliveryNoteManagement.php"
+        ]
+    },
+    "livewire/wholesale/quotation-management.blade.php": {
+        "view_name": "livewire.wholesale.quotation-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Wholesale/QuotationManagement.php"
+        ]
+    },
+    "livewire/wholesale/sales-invoice-management.blade.php": {
+        "view_name": "livewire.wholesale.sales-invoice-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Wholesale/SalesInvoiceManagement.php"
+        ]
+    },
+    "livewire/wholesale/sales-order-management.blade.php": {
+        "view_name": "livewire.wholesale.sales-order-management",
+        "references_count": 1,
+        "references": [
+            "app/Livewire/Wholesale/SalesOrderManagement.php"
+        ]
+    },
+    "permits/create.blade.php": {
+        "view_name": "permits.create",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/PermitController.php",
+            "resources/views/permits/index.blade.php"
+        ]
+    },
+    "permits/edit.blade.php": {
+        "view_name": "permits.edit",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/PermitController.php",
+            "resources/views/permits/index.blade.php"
+        ]
+    },
+    "permits/index.blade.php": {
+        "view_name": "permits.index",
+        "references_count": 6,
+        "references": [
+            "app/Http/Controllers/PermitController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/permits/create.blade.php",
+            "resources/views/permits/edit.blade.php",
+            "tests/Feature/Phase3ExitTest.php",
+            "tests/Feature/Sprint32PosBillingAndPermitTest.php"
+        ]
+    },
+    "phase3/demo.blade.php": {
+        "view_name": "phase3.demo",
+        "references_count": 3,
+        "references": [
+            "app/Http/Controllers/Phase3DemoController.php",
+            "resources/views/components/sidebar.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "pos/receipt.blade.php": {
+        "view_name": "pos.receipt",
+        "references_count": 4,
+        "references": [
+            "app/Http/Controllers/PosController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/pos/sales.blade.php",
+            "tests/Feature/Sprint32PosBillingAndPermitTest.php"
+        ]
+    },
+    "pos/sales.blade.php": {
+        "view_name": "pos.sales",
+        "references_count": 3,
+        "references": [
+            "app/Http/Controllers/PosController.php",
+            "resources/views/components/sidebar.blade.php",
+            "tests/Feature/Sprint32PosBillingAndPermitTest.php"
+        ]
+    },
+    "pos/terminal.blade.php": {
+        "view_name": "pos.terminal",
+        "references_count": 7,
+        "references": [
+            "app/Http/Controllers/PosController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/livewire/pos/shift-management.blade.php",
+            "resources/views/pos/receipt.blade.php",
+            "resources/views/pos/sales.blade.php",
+            "tests/Feature/Phase3ExitTest.php",
+            "tests/Feature/Sprint31BranchAndShiftTest.php"
+        ]
+    },
+    "profile.blade.php": {
+        "view_name": "profile",
+        "references_count": 9,
+        "references": [
+            "app/Livewire/System/CompanyManagement.php",
+            "resources/views/components/topbar.blade.php",
+            "resources/views/livewire/layout/navigation.blade.php",
+            "resources/views/livewire/profile/update-profile-information-form.blade.php",
+            "resources/views/livewire/purchase-import/purchase-order-management.blade.php",
+            "resources/views/livewire/wholesale/customer-credit-management.blade.php",
+            "routes/web.php",
+            "tests/Feature/Auth/PasswordUpdateTest.php",
+            "tests/Feature/ProfileTest.php"
+        ]
+    },
+    "shifts/close.blade.php": {
+        "view_name": "shifts.close",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/ShiftController.php",
+            "tests/Feature/Sprint31BranchAndShiftTest.php"
+        ]
+    },
+    "shifts/index.blade.php": {
+        "view_name": "shifts.index",
+        "references_count": 4,
+        "references": [
+            "app/Http/Controllers/ShiftController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/shifts/close.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "shifts/open.blade.php": {
+        "view_name": "shifts.open",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/ShiftController.php",
+            "app/Http/Middleware/RequireOpenShift.php",
+            "resources/views/pos/terminal.blade.php",
+            "resources/views/shifts/index.blade.php",
+            "tests/Feature/Sprint31BranchAndShiftTest.php"
+        ]
+    },
+    "shifts/print.blade.php": {
+        "view_name": "shifts.print",
+        "references_count": 4,
+        "references": [
+            "app/Http/Controllers/ShiftController.php",
+            "resources/views/livewire/pos/shift-management.blade.php",
+            "resources/views/shifts/index.blade.php",
+            "tests/Feature/Sprint31BranchAndShiftTest.php"
+        ]
+    },
+    "welcome.blade.php": {
+        "view_name": "welcome",
+        "references_count": 1,
+        "references": [
+            "config/session.php"
+        ]
+    },
+    "wholesale/credit/index.blade.php": {
+        "view_name": "wholesale.credit.index",
+        "references_count": 4,
+        "references": [
+            "app/Http/Controllers/CustomerCreditController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/wholesale/credit/show.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "wholesale/credit/show.blade.php": {
+        "view_name": "wholesale.credit.show",
+        "references_count": 3,
+        "references": [
+            "app/Http/Controllers/CustomerCreditController.php",
+            "resources/views/livewire/wholesale/customer-credit-management.blade.php",
+            "resources/views/wholesale/credit/index.blade.php"
+        ]
+    },
+    "wholesale/delivery-notes/create.blade.php": {
+        "view_name": "wholesale.delivery-notes.create",
+        "references_count": 3,
+        "references": [
+            "app/Http/Controllers/DeliveryNoteController.php",
+            "resources/views/wholesale/delivery-notes/index.blade.php",
+            "resources/views/wholesale/orders/show.blade.php"
+        ]
+    },
+    "wholesale/delivery-notes/index.blade.php": {
+        "view_name": "wholesale.delivery-notes.index",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/DeliveryNoteController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/wholesale/delivery-notes/create.blade.php",
+            "resources/views/wholesale/delivery-notes/show.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "wholesale/delivery-notes/print.blade.php": {
+        "view_name": "wholesale.delivery-notes.print",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/DeliveryNoteController.php",
+            "resources/views/livewire/wholesale/delivery-note-management.blade.php",
+            "resources/views/wholesale/delivery-notes/index.blade.php",
+            "resources/views/wholesale/delivery-notes/show.blade.php",
+            "tests/Feature/Sprint33WholesaleFlowTest.php"
+        ]
+    },
+    "wholesale/delivery-notes/show.blade.php": {
+        "view_name": "wholesale.delivery-notes.show",
+        "references_count": 6,
+        "references": [
+            "app/Http/Controllers/DeliveryNoteController.php",
+            "resources/views/livewire/wholesale/delivery-note-management.blade.php",
+            "resources/views/livewire/wholesale/sales-invoice-management.blade.php",
+            "resources/views/wholesale/delivery-notes/index.blade.php",
+            "resources/views/wholesale/delivery-notes/print.blade.php",
+            "resources/views/wholesale/orders/show.blade.php"
+        ]
+    },
+    "wholesale/invoices/index.blade.php": {
+        "view_name": "wholesale.invoices.index",
+        "references_count": 4,
+        "references": [
+            "app/Http/Controllers/InvoiceController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/wholesale/invoices/show.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "wholesale/invoices/print.blade.php": {
+        "view_name": "wholesale.invoices.print",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/InvoiceController.php",
+            "resources/views/livewire/wholesale/sales-invoice-management.blade.php",
+            "resources/views/wholesale/invoices/index.blade.php",
+            "resources/views/wholesale/invoices/show.blade.php",
+            "tests/Feature/Sprint33WholesaleFlowTest.php"
+        ]
+    },
+    "wholesale/invoices/show.blade.php": {
+        "view_name": "wholesale.invoices.show",
+        "references_count": 7,
+        "references": [
+            "app/Http/Controllers/InvoiceController.php",
+            "resources/views/livewire/wholesale/sales-invoice-management.blade.php",
+            "resources/views/wholesale/credit/show.blade.php",
+            "resources/views/wholesale/delivery-notes/show.blade.php",
+            "resources/views/wholesale/invoices/index.blade.php",
+            "resources/views/wholesale/invoices/print.blade.php",
+            "resources/views/wholesale/orders/show.blade.php"
+        ]
+    },
+    "wholesale/orders/create.blade.php": {
+        "view_name": "wholesale.orders.create",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/SalesOrderController.php",
+            "resources/views/wholesale/orders/index.blade.php"
+        ]
+    },
+    "wholesale/orders/index.blade.php": {
+        "view_name": "wholesale.orders.index",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/SalesOrderController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/wholesale/orders/create.blade.php",
+            "resources/views/wholesale/orders/show.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "wholesale/orders/show.blade.php": {
+        "view_name": "wholesale.orders.show",
+        "references_count": 12,
+        "references": [
+            "app/Http/Controllers/QuotationController.php",
+            "app/Http/Controllers/SalesOrderController.php",
+            "resources/views/livewire/wholesale/delivery-note-management.blade.php",
+            "resources/views/livewire/wholesale/sales-invoice-management.blade.php",
+            "resources/views/livewire/wholesale/sales-order-management.blade.php",
+            "resources/views/wholesale/delivery-notes/create.blade.php",
+            "resources/views/wholesale/delivery-notes/index.blade.php",
+            "resources/views/wholesale/delivery-notes/show.blade.php",
+            "resources/views/wholesale/invoices/show.blade.php",
+            "resources/views/wholesale/orders/index.blade.php",
+            "resources/views/wholesale/quotations/show.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "wholesale/quotations/create.blade.php": {
+        "view_name": "wholesale.quotations.create",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/QuotationController.php",
+            "resources/views/wholesale/quotations/index.blade.php"
+        ]
+    },
+    "wholesale/quotations/edit.blade.php": {
+        "view_name": "wholesale.quotations.edit",
+        "references_count": 2,
+        "references": [
+            "app/Http/Controllers/QuotationController.php",
+            "resources/views/wholesale/quotations/show.blade.php"
+        ]
+    },
+    "wholesale/quotations/index.blade.php": {
+        "view_name": "wholesale.quotations.index",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/QuotationController.php",
+            "resources/views/components/sidebar.blade.php",
+            "resources/views/wholesale/quotations/create.blade.php",
+            "resources/views/wholesale/quotations/show.blade.php",
+            "tests/Feature/Phase3ExitTest.php"
+        ]
+    },
+    "wholesale/quotations/print.blade.php": {
+        "view_name": "wholesale.quotations.print",
+        "references_count": 5,
+        "references": [
+            "app/Http/Controllers/QuotationController.php",
+            "resources/views/livewire/wholesale/quotation-management.blade.php",
+            "resources/views/wholesale/quotations/index.blade.php",
+            "resources/views/wholesale/quotations/show.blade.php",
+            "tests/Feature/Sprint33WholesaleFlowTest.php"
+        ]
+    },
+    "wholesale/quotations/show.blade.php": {
+        "view_name": "wholesale.quotations.show",
+        "references_count": 7,
+        "references": [
+            "app/Http/Controllers/QuotationController.php",
+            "resources/views/livewire/wholesale/quotation-management.blade.php",
+            "resources/views/wholesale/orders/show.blade.php",
+            "resources/views/wholesale/quotations/edit.blade.php",
+            "resources/views/wholesale/quotations/index.blade.php",
+            "resources/views/wholesale/quotations/print.blade.php",
+            "tests/Feature/Sprint33WholesaleFlowTest.php"
+        ]
+    }
+}
